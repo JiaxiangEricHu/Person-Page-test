@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "site",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "title": {
+      "default": "Eric · Research Archive",
+      "title": "网站标题",
+      "description": "网站标题",
+      "type": "string"
+    },
+    "name": {
+      "default": "Eric Hu",
+      "title": "姓名",
+      "description": "姓名",
+      "type": "string"
+    },
+    "brand": {
+      "default": "ERIC",
+      "title": "左上角品牌",
+      "description": "左上角品牌",
+      "type": "string"
+    },
+    "description": {
+      "default": "关注微电子、可穿戴设备与生物传感，探索从器件到系统的研究与设计。",
+      "title": "个人简介",
+      "description": "个人简介",
+      "type": "string"
+    },
+    "groups": {
+      "default": [
+        "档案分组 01",
+        "档案分组 02",
+        "档案分组 03"
+      ],
+      "title": "三个分组名称",
+      "description": "每行一个，共三个，名称不能重复。",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true
+    },
+    "topics": {
+      "default": [
+        "Microelectronics",
+        "Wearables",
+        "Biosensing"
+      ],
+      "title": "研究标签",
+      "description": "每行一个；可以清空。",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contactLabel": {
+      "default": "",
+      "title": "联系按钮文字",
+      "description": "为空时不显示。",
+      "type": "string"
+    },
+    "contactUrl": {
+      "default": "",
+      "title": "联系按钮地址",
+      "description": "支持 https:// 或 mailto:；为空时不显示。",
+      "type": "string",
+      "pattern": "^$|^(https?://|mailto:)"
+    }
+  },
+  "required": [
+    "title",
+    "name",
+    "brand",
+    "description",
+    "groups",
+    "topics",
+    "contactLabel",
+    "contactUrl"
+  ],
+  "additionalProperties": false
+}

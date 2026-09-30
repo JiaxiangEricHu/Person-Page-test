@@ -1,0 +1,38 @@
+{
+  "name": "eric-research-archive",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "node scripts/restore-models.mjs && node scripts/patch-rolling-number.mjs",
+    "predev": "node scripts/restore-models.mjs && node scripts/config.mjs && node scripts/content.mjs && node scripts/patch-rolling-number.mjs",
+    "dev": "vite --host 0.0.0.0 --port 4173",
+    "prebuild": "node scripts/restore-models.mjs && node scripts/config.mjs && node scripts/content.mjs && node scripts/patch-rolling-number.mjs",
+    "check:content": "node --test scripts/check-projects.mjs",
+    "check:viewport": "node --experimental-strip-types scripts/check-viewport.mjs",
+    "review:mobile": "node scripts/serve-mobile-review.mjs",
+    "export:archives": "node scripts/export-records.mjs",
+    "build": "tsc && vite build",
+    "build:cloudflare": "npm run build && node scripts/package-cloudflare.mjs",
+    "build:wallpaper": "node scripts/patch-rolling-number.mjs && node scripts/export-records.mjs && tsc && vite build --mode wallpaper --outDir release/wallpaper && node scripts/build-wallpaper.mjs",
+    "format": "prettier --write src scripts index.html package.json tsconfig.json",
+    "preview": "vite preview --host 127.0.0.1",
+    "content": "node scripts/content.mjs",
+    "check:config": "node scripts/config.mjs && node --test scripts/check-config.mjs",
+    "edit": "npm run dev -- --open /editor.html"
+  },
+  "dependencies": {
+    "@kitlangton/rolling-number": "0.4.1",
+    "three": "^0.183.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.183.0",
+    "marked": "18.0.13",
+    "prettier": "^3.9.6",
+    "sanitize-html": "2.17.7",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "yaml": "2.9.1"
+  }
+}

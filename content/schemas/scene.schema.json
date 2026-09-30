@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "scene",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "cardAspect": {
+      "default": 1.4142857142857144,
+      "title": "档案高宽比",
+      "description": "档案高宽比",
+      "minimum": 1.1,
+      "maximum": 1.7,
+      "type": "number"
+    },
+    "exposedFraction": {
+      "default": 0.3333333333333333,
+      "title": "档案露出高度比例",
+      "description": "档案露出高度比例",
+      "minimum": 0.25,
+      "maximum": 0.45,
+      "type": "number"
+    },
+    "backgroundWave": {
+      "default": 0.78,
+      "title": "背景波浪幅度",
+      "description": "背景波浪幅度",
+      "minimum": 0,
+      "maximum": 1.2,
+      "type": "number"
+    },
+    "selectionWave": {
+      "default": 0.82,
+      "title": "点击波浪幅度",
+      "description": "点击波浪幅度",
+      "minimum": 0,
+      "maximum": 1.2,
+      "type": "number"
+    },
+    "idleWave": {
+      "default": 1,
+      "title": "待机起伏倍率",
+      "description": "待机起伏倍率",
+      "minimum": 0,
+      "maximum": 2,
+      "type": "number"
+    },
+    "rowDamping": {
+      "default": 3.7,
+      "title": "纵向切换收敛速度",
+      "description": "纵向切换收敛速度",
+      "minimum": 2,
+      "maximum": 12,
+      "type": "number"
+    },
+    "laneDamping": {
+      "default": 6.2,
+      "title": "横向切换收敛速度",
+      "description": "横向切换收敛速度",
+      "minimum": 2,
+      "maximum": 12,
+      "type": "number"
+    },
+    "hoverLift": {
+      "default": 0.28,
+      "title": "悬停抬升高度",
+      "description": "悬停抬升高度",
+      "minimum": 0,
+      "maximum": 0.5,
+      "type": "number"
+    },
+    "wheelRowThreshold": {
+      "default": 100,
+      "title": "滚轮纵向切换阈值",
+      "description": "滚轮纵向切换阈值",
+      "minimum": 40,
+      "maximum": 300,
+      "type": "number"
+    },
+    "wheelLaneThreshold": {
+      "default": 150,
+      "title": "滚轮横向切换阈值",
+      "description": "滚轮横向切换阈值",
+      "minimum": 40,
+      "maximum": 300,
+      "type": "number"
+    },
+    "wheelCooldown": {
+      "default": 160,
+      "title": "滚轮切换间隔 ms",
+      "description": "滚轮切换间隔 ms",
+      "minimum": 80,
+      "maximum": 500,
+      "type": "number"
+    },
+    "pixelRatio": {
+      "default": 2,
+      "title": "渲染像素比上限",
+      "description": "渲染像素比上限",
+      "minimum": 1,
+      "maximum": 2,
+      "type": "number"
+    },
+    "depthOfField": {
+      "default": 15,
+      "title": "景深强度",
+      "description": "景深强度",
+      "minimum": 0,
+      "maximum": 30,
+      "type": "number"
+    },
+    "exposure": {
+      "default": 0.98,
+      "title": "场景曝光",
+      "description": "场景曝光",
+      "minimum": 0.5,
+      "maximum": 1.5,
+      "type": "number"
+    },
+    "reduceMotion": {
+      "default": false,
+      "title": "减少动态效果",
+      "description": "始终尊重操作系统减少动画设置；此开关可额外减少。",
+      "type": "boolean"
+    },
+    "floor": {
+      "default": "#090c0f",
+      "title": "三维地面颜色",
+      "description": "三维地面颜色",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "fog": {
+      "default": "#0b1014",
+      "title": "雾颜色",
+      "description": "雾颜色",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "polymer": {
+      "default": "#626b70",
+      "title": "档案外壳",
+      "description": "档案外壳",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "edges": {
+      "default": "#687277",
+      "title": "档案边缘",
+      "description": "档案边缘",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "diffuser": {
+      "default": "#192226",
+      "title": "档案内层",
+      "description": "档案内层",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "fasteners": {
+      "default": "#b1b9bb",
+      "title": "档案紧固件",
+      "description": "档案紧固件",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "inlay": {
+      "default": "#c6a36b",
+      "title": "档案索引",
+      "description": "档案索引",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "printedLabel": {
+      "default": "#303a3e",
+      "title": "印刷底层",
+      "description": "印刷底层",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "optics": {
+      "default": "#939e9f",
+      "title": "光学内层",
+      "description": "光学内层",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "opticalEdges": {
+      "default": "#bbc3bc",
+      "title": "透明边缘",
+      "description": "透明边缘",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "ink": {
+      "default": "#b6bdb8",
+      "title": "墨色",
+      "description": "墨色",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    }
+  },
+  "required": [
+    "cardAspect",
+    "exposedFraction",
+    "backgroundWave",
+    "selectionWave",
+    "idleWave",
+    "rowDamping",
+    "laneDamping",
+    "hoverLift",
+    "wheelRowThreshold",
+    "wheelLaneThreshold",
+    "wheelCooldown",
+    "pixelRatio",
+    "depthOfField",
+    "exposure",
+    "reduceMotion",
+    "floor",
+    "fog",
+    "polymer",
+    "edges",
+    "diffuser",
+    "fasteners",
+    "inlay",
+    "printedLabel",
+    "optics",
+    "opticalEdges",
+    "ink"
+  ],
+  "additionalProperties": false
+}

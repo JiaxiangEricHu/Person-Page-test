@@ -2,6 +2,39 @@
 
 三维档案首页 + Markdown 项目详情页 + GitHub Actions 自动发布。
 
+## 可视化编辑与集中配置
+
+**完整源码已整理在本仓库。** 常用元素不需要进入 Three.js 代码修改：
+
+| 要改什么 | 直接编辑 |
+| --- | --- |
+| 姓名、简介、品牌、三个分组、标签和联系按钮 | [site.json](content/site.json) |
+| 标题、按钮、操作提示、页脚、空状态文字 | [ui.json](content/ui.json) |
+| 全站颜色、字体、面板尺寸、圆角、模糊、显示开关 | [design.json](content/design.json) |
+| 档案比例、露出量、材质颜色、波浪、滚轮和性能参数 | [scene.json](content/scene.json) |
+| 项目内容、标题、封面、排序和上下线 | [项目 Markdown](content/projects/) |
+| 图片、PDF、其他附件 | [public/uploads](public/uploads/) |
+| 更细的页面布局与样式覆盖 | [custom.css](public/custom.css) |
+
+**表单编辑器：** Pages 发布成功后，访问网站的 `editor.html`。本地则运行 `npm ci` 后 `npm run edit`。表单可导入现有 JSON、填写中文标注的选项，并导出当前类别的 JSON。将导出文件替换到仓库 `content/` 中的同名文件后提交，即可触发重新构建。
+
+编辑器在浏览器内工作，**不会直接写入 GitHub，也不是实时预览器**；尚未导出的修改会在刷新后丢失。需要即时查看效果时，修改本地配置并运行 `npm run dev`。
+
+[中文编辑地图](EDITING_GUIDE_ZH.md) · [全部配置参数](CONFIG_REFERENCE_ZH.md)
+
+## 从这里开始修改
+
+- **原网站（ChatGPT Sites）**：[Eric · Research Archive](https://eric-research-archive.erichu996.chatgpt.site/)
+- **修改姓名、简介和分组**：[编辑 site.json](https://github.com/JiaxiangEricHu/Person-Page-test/edit/main/content/site.json)
+- **修改项目和详情页**：[打开 projects 文件夹](content/projects/)，选择文件后点击铅笔。
+- **上传图片与 PDF**：[打开 uploads 文件夹](public/uploads/)。
+- **界面与源码对应位置**：[中文编辑地图](EDITING_GUIDE_ZH.md)。
+
+本仓库补齐了此前打包的 GitHub Pages 可编辑版本（2026-09-20 导出），含完整前端源码、模型资源、24 篇占位项目及 Markdown 详情页。它是原 Sites 项目的独立可编辑版本，并非从线上页面反编译的文件；此版本继续以该导出包为基线开发，包含新的集中配置与编辑器；没有更新原 Sites 发布。
+
+**修改这里不会自动更新上面的 chatgpt.site 网址。** GitHub Actions 工作流发布的是 GitHub Pages；需先在仓库 Settings → Pages 将 Source 设为 GitHub Actions。预计 Pages 地址为 `https://jiaxiangerichu.github.io/Person-Page-test/`，是否成功上线请以 [Actions](https://github.com/JiaxiangEricHu/Person-Page-test/actions) 的实际部署结果为准。
+
+
 ## 日常只需要编辑这些文件
 
 | 位置 | 用途 |
@@ -117,6 +150,7 @@ npm run dev
 终端会显示本地地址。修改 Markdown 后首页自动更新。完整构建与静态预览：
 
 ```bash
+npm run check:config
 npm run check:content
 npm run build
 npm run preview
@@ -139,7 +173,9 @@ npm run preview
 - 发布：GitHub Actions 安装锁定依赖，验证内容，构建后发布 dist。
 - 内容管理：通过 GitHub 登录后的编辑权限进行，不在公开网页中保存访问令牌或提供写入接口。
 
-本版本准备了全部源码与自动部署工作流，实际是否已上线以 GitHub Actions 的成功结果为准。
+模型采用小文件打包随仓库存储，安装或构建时自动恢复到 public/assets；恢复过程验证 SHA-256，无需从第三方服务器下载模型。替换模型的方法见 [assets-source/README.md](assets-source/README.md)。
+
+本版本包含完整源码与自动部署工作流，实际是否已上线以 GitHub Actions 的成功结果为准。
 
 ## 来源与许可
 

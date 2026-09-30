@@ -1,0 +1,24 @@
+/* Values are centralized in content/design.json. Advanced overrides: public/custom.css. */
+:root{font-family:var(--font-family);color:var(--text);background:var(--background);--line:color-mix(in srgb,var(--border-color) 15%,transparent)}
+/* Keep the border token separate; --line would otherwise refer to itself. */
+body{color:var(--text);background:var(--background)}
+.edge-fade{background:linear-gradient(180deg,var(--background),transparent 25%,transparent 69%,var(--background))}
+.brand strong{font-size:var(--brand-size)}
+.intro-panel,.preview-panel,.details{padding:var(--panel-padding);border-radius:var(--panel-radius);backdrop-filter:blur(var(--panel-blur));-webkit-backdrop-filter:blur(var(--panel-blur));background:color-mix(in srgb,var(--panel) calc(var(--panel-opacity)*100%),transparent)}
+.intro-panel p,.details p{font-size:var(--body-size);color:var(--muted)}
+.preview-copy h1{font-size:var(--title-size)}
+.preview-summary{grid-template-columns:minmax(0,calc(var(--preview-image-fraction)*100%)) minmax(0,1fr)}
+.info-stack{width:clamp(300px,27vw,var(--panel-width))}
+.bottom-bar{right:calc(clamp(300px,27vw,var(--panel-width)) + 6.8%)}
+#row-ticks button{height:var(--number-height);font-size:var(--number-size)}
+#columns button,.column-nav>button{width:var(--group-size);height:var(--group-size);font-size:var(--number-size)}
+#row-ticks button[aria-pressed=true],#columns button[aria-pressed=true]{color:var(--text);background:color-mix(in srgb,var(--accent) 25%,transparent);border-color:var(--accent)}
+.open-file,.read-project{border-color:color-mix(in srgb,var(--accent) 40%,transparent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.loading{background:var(--background);color:var(--muted)}
+.contact-link{display:inline-block;margin-top:12px;color:var(--accent);font-size:14px}
+body[data-show-intro=false] .intro-panel,body[data-show-topics=false] .intro-topics,body[data-show-preview=false] .preview-panel,body[data-show-navigation=false] .column-nav,body[data-show-navigation=false] .row-nav,body[data-show-hints=false] .hint,body[data-show-footer=false] footer,body[data-show-collection=false] .header-right>span{display:none}
+@media(max-width:1250px){.bottom-bar{right:3.4%}}
+@media(max-width:700px){.brand strong{font-size:min(var(--brand-size),30px)}.intro-panel{padding:10px 14px}.preview-panel{padding:14px 15px}.preview-summary{height:var(--mobile-preview-height)}.bottom-bar{right:18px}.info-stack{width:auto}.details{padding:20px}.column-nav{overflow-x:auto;justify-content:flex-start}#columns{flex-shrink:0}.column-nav>button{flex-shrink:0}}
+
+/* Override the legacy column direction: archive numbers stay on one row. */
+.row-nav #row-ticks{flex-direction:row}

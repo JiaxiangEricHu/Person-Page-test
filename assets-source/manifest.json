@@ -1,0 +1,47 @@
+[
+  {
+    "file": "archive-assembly.glb",
+    "sha256": "d411170676f55a327c286e67e462f98b446667811c725318bab85657eaee06ec",
+    "chunks": [
+      "archive-assembly.glb.gz.b64.000",
+      "archive-assembly.glb.gz.b64.001",
+      "archive-assembly.glb.gz.b64.002",
+      "archive-assembly.glb.gz.b64.003",
+      "archive-assembly.glb.gz.b64.004",
+      "archive-assembly.glb.gz.b64.005",
+      "archive-assembly.glb.gz.b64.006",
+      "archive-assembly.glb.gz.b64.007",
+      "archive-assembly.glb.gz.b64.008",
+      "archive-assembly.glb.gz.b64.009",
+      "archive-assembly.glb.gz.b64.010",
+      "archive-assembly.glb.gz.b64.011",
+      "archive-assembly.glb.gz.b64.012",
+      "archive-assembly.glb.gz.b64.013",
+      "archive-assembly.glb.gz.b64.014",
+      "archive-assembly.glb.gz.b64.015"
+    ]
+  },
+  {
+    "file": "archive-cassette.glb",
+    "sha256": "dda42b9b3b471d11c69820a64084d254a64b27761287ab0e35dd8387ec0a0bed",
+    "chunks": [
+      "archive-cassette.glb.gz.b64.000",
+      "archive-cassette.glb.gz.b64.001",
+      "archive-cassette.glb.gz.b64.002",
+      "archive-cassette.glb.gz.b64.003",
+      "archive-cassette.glb.gz.b64.004",
+      "archive-cassette.glb.gz.b64.005",
+      "archive-cassette.glb.gz.b64.006",
+      "archive-cassette.glb.gz.b64.007",
+      "archive-cassette.glb.gz.b64.008",
+      "archive-cassette.glb.gz.b64.009",
+      "archive-cassette.glb.gz.b64.010",
+      "archive-cassette.glb.gz.b64.011",
+      "archive-cassette.glb.gz.b64.012",
+      "archive-cassette.glb.gz.b64.013",
+      "archive-cassette.glb.gz.b64.014",
+      "archive-cassette.glb.gz.b64.015",
+      "archive-cassette.glb.gz.b64.016"
+    ]
+  }
+]

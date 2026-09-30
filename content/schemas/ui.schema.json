@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ui",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "brandSubtitle": {
+      "default": "PERSONAL RESEARCH\nARCHIVE SYSTEM",
+      "title": "品牌下方副标题",
+      "description": "品牌下方副标题",
+      "type": "string"
+    },
+    "brandSymbol": {
+      "default": "↗",
+      "title": "品牌符号",
+      "description": "品牌符号",
+      "type": "string"
+    },
+    "collection": {
+      "default": "COLLECTION",
+      "title": "总数前缀",
+      "description": "总数前缀",
+      "type": "string"
+    },
+    "allProjects": {
+      "default": "全部项目",
+      "title": "项目列表入口",
+      "description": "项目列表入口",
+      "type": "string"
+    },
+    "about": {
+      "default": "ABOUT / 简介",
+      "title": "简介栏目标题",
+      "description": "简介栏目标题",
+      "type": "string"
+    },
+    "selected": {
+      "default": "SELECTED ARCHIVE",
+      "title": "选中档案栏目标题",
+      "description": "选中档案栏目标题",
+      "type": "string"
+    },
+    "detailEyebrow": {
+      "default": "PERSONAL RESEARCH ARCHIVE",
+      "title": "展开卡片栏目标题",
+      "description": "展开卡片栏目标题",
+      "type": "string"
+    },
+    "open": {
+      "default": "展开档案",
+      "title": "展开按钮",
+      "description": "展开按钮",
+      "type": "string"
+    },
+    "read": {
+      "default": "阅读完整项目 ↗",
+      "title": "完整详情按钮",
+      "description": "完整详情按钮",
+      "type": "string"
+    },
+    "back": {
+      "default": "← 返回档案阵列",
+      "title": "返回按钮",
+      "description": "返回按钮",
+      "type": "string"
+    },
+    "hint": {
+      "default": "横向切组 · 纵向选档",
+      "title": "操作提示",
+      "description": "操作提示",
+      "type": "string"
+    },
+    "hintSecondary": {
+      "default": "点击编号可直接选择",
+      "title": "操作提示第二行",
+      "description": "操作提示第二行",
+      "type": "string"
+    },
+    "footerLeft": {
+      "default": "ERIC / RESEARCH ARCHIVE",
+      "title": "页脚左侧",
+      "description": "页脚左侧",
+      "type": "string"
+    },
+    "footerRight": {
+      "default": "PERSONAL RESEARCH",
+      "title": "页脚右侧",
+      "description": "页脚右侧",
+      "type": "string"
+    },
+    "loading": {
+      "default": "正在载入档案阵列",
+      "title": "加载提示",
+      "description": "加载提示",
+      "type": "string"
+    },
+    "loadError": {
+      "default": "当前浏览器无法启动三维场景。",
+      "title": "三维载入失败提示",
+      "description": "三维载入失败提示",
+      "type": "string"
+    },
+    "fallback": {
+      "default": "直接浏览全部项目",
+      "title": "降级浏览入口",
+      "description": "降级浏览入口",
+      "type": "string"
+    },
+    "emptyTitle": {
+      "default": "暂无公开项目",
+      "title": "空列表标题",
+      "description": "空列表标题",
+      "type": "string"
+    },
+    "emptyDescription": {
+      "default": "新的研究档案即将上线。",
+      "title": "空列表说明",
+      "description": "空列表说明",
+      "type": "string"
+    },
+    "sceneLabel": {
+      "default": "三维档案阵列",
+      "title": "三维区域辅助标签",
+      "description": "三维区域辅助标签",
+      "type": "string"
+    },
+    "rowsLabel": {
+      "default": "列内档案",
+      "title": "编号区域辅助标签",
+      "description": "编号区域辅助标签",
+      "type": "string"
+    },
+    "groupsLabel": {
+      "default": "档案分组",
+      "title": "分组区域辅助标签",
+      "description": "分组区域辅助标签",
+      "type": "string"
+    },
+    "previousGroup": {
+      "default": "上一组",
+      "title": "上一组按钮辅助标签",
+      "description": "上一组按钮辅助标签",
+      "type": "string"
+    },
+    "nextGroup": {
+      "default": "下一组",
+      "title": "下一组按钮辅助标签",
+      "description": "下一组按钮辅助标签",
+      "type": "string"
+    },
+    "openSelected": {
+      "default": "展开当前档案",
+      "title": "卡片辅助标签",
+      "description": "卡片辅助标签",
+      "type": "string"
+    },
+    "selectPrefix": {
+      "default": "选择",
+      "title": "档案按钮辅助前缀",
+      "description": "档案按钮辅助前缀",
+      "type": "string"
+    }
+  },
+  "required": [
+    "brandSubtitle",
+    "brandSymbol",
+    "collection",
+    "allProjects",
+    "about",
+    "selected",
+    "detailEyebrow",
+    "open",
+    "read",
+    "back",
+    "hint",
+    "hintSecondary",
+    "footerLeft",
+    "footerRight",
+    "loading",
+    "loadError",
+    "fallback",
+    "emptyTitle",
+    "emptyDescription",
+    "sceneLabel",
+    "rowsLabel",
+    "groupsLabel",
+    "previousGroup",
+    "nextGroup",
+    "openSelected",
+    "selectPrefix"
+  ],
+  "additionalProperties": false
+}

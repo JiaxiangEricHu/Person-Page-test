@@ -1,0 +1,19 @@
+{
+  "$schema": "./schemas/site.schema.json",
+  "title": "Eric · Research Archive",
+  "name": "Eric Hu",
+  "brand": "ERIC",
+  "description": "关注微电子、可穿戴设备与生物传感，探索从器件到系统的研究与设计。",
+  "groups": [
+    "档案分组 01",
+    "档案分组 02",
+    "档案分组 03"
+  ],
+  "topics": [
+    "Microelectronics",
+    "Wearables",
+    "Biosensing"
+  ],
+  "contactLabel": "",
+  "contactUrl": ""
+}

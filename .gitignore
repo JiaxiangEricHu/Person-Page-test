@@ -1,0 +1,7 @@
+node_modules/
+.sites-runtime/
+.sites-preview/
+dist/
+.env
+.env.*
+.openai/

@@ -1,0 +1,652 @@
+{
+  "site": {
+    "title": {
+      "default": "Eric · Research Archive",
+      "title": "网站标题",
+      "description": "网站标题",
+      "type": "string"
+    },
+    "name": {
+      "default": "Eric Hu",
+      "title": "姓名",
+      "description": "姓名",
+      "type": "string"
+    },
+    "brand": {
+      "default": "ERIC",
+      "title": "左上角品牌",
+      "description": "左上角品牌",
+      "type": "string"
+    },
+    "description": {
+      "default": "关注微电子、可穿戴设备与生物传感，探索从器件到系统的研究与设计。",
+      "title": "个人简介",
+      "description": "个人简介",
+      "type": "string"
+    },
+    "groups": {
+      "default": [
+        "档案分组 01",
+        "档案分组 02",
+        "档案分组 03"
+      ],
+      "title": "三个分组名称",
+      "description": "每行一个，共三个，名称不能重复。",
+      "type": "lines"
+    },
+    "topics": {
+      "default": [
+        "Microelectronics",
+        "Wearables",
+        "Biosensing"
+      ],
+      "title": "研究标签",
+      "description": "每行一个；可以清空。",
+      "type": "lines"
+    },
+    "contactLabel": {
+      "default": "",
+      "title": "联系按钮文字",
+      "description": "为空时不显示。",
+      "type": "string"
+    },
+    "contactUrl": {
+      "default": "",
+      "title": "联系按钮地址",
+      "description": "支持 https:// 或 mailto:；为空时不显示。",
+      "type": "url"
+    }
+  },
+  "ui": {
+    "brandSubtitle": {
+      "default": "PERSONAL RESEARCH\nARCHIVE SYSTEM",
+      "title": "品牌下方副标题",
+      "description": "品牌下方副标题",
+      "type": "string"
+    },
+    "brandSymbol": {
+      "default": "↗",
+      "title": "品牌符号",
+      "description": "品牌符号",
+      "type": "string"
+    },
+    "collection": {
+      "default": "COLLECTION",
+      "title": "总数前缀",
+      "description": "总数前缀",
+      "type": "string"
+    },
+    "allProjects": {
+      "default": "全部项目",
+      "title": "项目列表入口",
+      "description": "项目列表入口",
+      "type": "string"
+    },
+    "about": {
+      "default": "ABOUT / 简介",
+      "title": "简介栏目标题",
+      "description": "简介栏目标题",
+      "type": "string"
+    },
+    "selected": {
+      "default": "SELECTED ARCHIVE",
+      "title": "选中档案栏目标题",
+      "description": "选中档案栏目标题",
+      "type": "string"
+    },
+    "detailEyebrow": {
+      "default": "PERSONAL RESEARCH ARCHIVE",
+      "title": "展开卡片栏目标题",
+      "description": "展开卡片栏目标题",
+      "type": "string"
+    },
+    "open": {
+      "default": "展开档案",
+      "title": "展开按钮",
+      "description": "展开按钮",
+      "type": "string"
+    },
+    "read": {
+      "default": "阅读完整项目 ↗",
+      "title": "完整详情按钮",
+      "description": "完整详情按钮",
+      "type": "string"
+    },
+    "back": {
+      "default": "← 返回档案阵列",
+      "title": "返回按钮",
+      "description": "返回按钮",
+      "type": "string"
+    },
+    "hint": {
+      "default": "横向切组 · 纵向选档",
+      "title": "操作提示",
+      "description": "操作提示",
+      "type": "string"
+    },
+    "hintSecondary": {
+      "default": "点击编号可直接选择",
+      "title": "操作提示第二行",
+      "description": "操作提示第二行",
+      "type": "string"
+    },
+    "footerLeft": {
+      "default": "ERIC / RESEARCH ARCHIVE",
+      "title": "页脚左侧",
+      "description": "页脚左侧",
+      "type": "string"
+    },
+    "footerRight": {
+      "default": "PERSONAL RESEARCH",
+      "title": "页脚右侧",
+      "description": "页脚右侧",
+      "type": "string"
+    },
+    "loading": {
+      "default": "正在载入档案阵列",
+      "title": "加载提示",
+      "description": "加载提示",
+      "type": "string"
+    },
+    "loadError": {
+      "default": "当前浏览器无法启动三维场景。",
+      "title": "三维载入失败提示",
+      "description": "三维载入失败提示",
+      "type": "string"
+    },
+    "fallback": {
+      "default": "直接浏览全部项目",
+      "title": "降级浏览入口",
+      "description": "降级浏览入口",
+      "type": "string"
+    },
+    "emptyTitle": {
+      "default": "暂无公开项目",
+      "title": "空列表标题",
+      "description": "空列表标题",
+      "type": "string"
+    },
+    "emptyDescription": {
+      "default": "新的研究档案即将上线。",
+      "title": "空列表说明",
+      "description": "空列表说明",
+      "type": "string"
+    },
+    "sceneLabel": {
+      "default": "三维档案阵列",
+      "title": "三维区域辅助标签",
+      "description": "三维区域辅助标签",
+      "type": "string"
+    },
+    "rowsLabel": {
+      "default": "列内档案",
+      "title": "编号区域辅助标签",
+      "description": "编号区域辅助标签",
+      "type": "string"
+    },
+    "groupsLabel": {
+      "default": "档案分组",
+      "title": "分组区域辅助标签",
+      "description": "分组区域辅助标签",
+      "type": "string"
+    },
+    "previousGroup": {
+      "default": "上一组",
+      "title": "上一组按钮辅助标签",
+      "description": "上一组按钮辅助标签",
+      "type": "string"
+    },
+    "nextGroup": {
+      "default": "下一组",
+      "title": "下一组按钮辅助标签",
+      "description": "下一组按钮辅助标签",
+      "type": "string"
+    },
+    "openSelected": {
+      "default": "展开当前档案",
+      "title": "卡片辅助标签",
+      "description": "卡片辅助标签",
+      "type": "string"
+    },
+    "selectPrefix": {
+      "default": "选择",
+      "title": "档案按钮辅助前缀",
+      "description": "档案按钮辅助前缀",
+      "type": "string"
+    }
+  },
+  "design": {
+    "background": {
+      "default": "#07090b",
+      "title": "背景",
+      "description": "背景",
+      "type": "color"
+    },
+    "text": {
+      "default": "#e8e8e4",
+      "title": "主要文字",
+      "description": "主要文字",
+      "type": "color"
+    },
+    "muted": {
+      "default": "#9aa5ac",
+      "title": "次要文字",
+      "description": "次要文字",
+      "type": "color"
+    },
+    "accent": {
+      "default": "#c7a66e",
+      "title": "强调色",
+      "description": "强调色",
+      "type": "color"
+    },
+    "line": {
+      "default": "#ccd8df",
+      "title": "边框基础色",
+      "description": "边框基础色",
+      "type": "color"
+    },
+    "panel": {
+      "default": "#101722",
+      "title": "玻璃面板底色",
+      "description": "玻璃面板底色",
+      "type": "color"
+    },
+    "cardPaper": {
+      "default": "#f1eee6",
+      "title": "档案标签纸色",
+      "description": "档案标签纸色",
+      "type": "color"
+    },
+    "cardImage": {
+      "default": "#deded1",
+      "title": "档案缩略图底色",
+      "description": "档案缩略图底色",
+      "type": "color"
+    },
+    "cardGrid": {
+      "default": "#bdc2b1",
+      "title": "标签网格",
+      "description": "标签网格",
+      "type": "color"
+    },
+    "cardGraph": {
+      "default": "#394731",
+      "title": "标签曲线",
+      "description": "标签曲线",
+      "type": "color"
+    },
+    "cardText": {
+      "default": "#252821",
+      "title": "标签标题",
+      "description": "标签标题",
+      "type": "color"
+    },
+    "cardSubtitle": {
+      "default": "#3b4137",
+      "title": "标签副标题",
+      "description": "标签副标题",
+      "type": "color"
+    },
+    "placeholder": {
+      "default": "#6a7958",
+      "title": "占位缩略图",
+      "description": "占位缩略图",
+      "type": "color"
+    },
+    "fontFamily": {
+      "default": "Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+      "title": "界面字体",
+      "description": "填写 CSS 字体族列表；字体须已在浏览器安装或另行引入。",
+      "type": "string"
+    },
+    "bodySize": {
+      "default": 16,
+      "title": "正文大小 px",
+      "description": "正文大小 px",
+      "type": "number",
+      "minimum": 14,
+      "maximum": 24
+    },
+    "titleSize": {
+      "default": 24,
+      "title": "预览标题 px",
+      "description": "预览标题 px",
+      "type": "number",
+      "minimum": 18,
+      "maximum": 36
+    },
+    "brandSize": {
+      "default": 38,
+      "title": "桌面品牌字号 px",
+      "description": "桌面品牌字号 px",
+      "type": "number",
+      "minimum": 20,
+      "maximum": 52
+    },
+    "panelWidth": {
+      "default": 350,
+      "title": "桌面侧栏最大宽度 px",
+      "description": "桌面侧栏最大宽度 px",
+      "type": "number",
+      "minimum": 300,
+      "maximum": 420
+    },
+    "panelRadius": {
+      "default": 14,
+      "title": "面板圆角 px",
+      "description": "面板圆角 px",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 32
+    },
+    "panelPadding": {
+      "default": 22,
+      "title": "面板内边距 px",
+      "description": "面板内边距 px",
+      "type": "number",
+      "minimum": 12,
+      "maximum": 32
+    },
+    "panelBlur": {
+      "default": 24,
+      "title": "玻璃模糊 px",
+      "description": "玻璃模糊 px",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 40
+    },
+    "panelOpacity": {
+      "default": 0.65,
+      "title": "面板不透明度",
+      "description": "面板不透明度",
+      "type": "number",
+      "minimum": 0.2,
+      "maximum": 1
+    },
+    "previewImageFraction": {
+      "default": 0.3333333333333333,
+      "title": "缩略图占卡片宽度比例",
+      "description": "缩略图占卡片宽度比例",
+      "type": "number",
+      "minimum": 0.2,
+      "maximum": 0.5
+    },
+    "numberSize": {
+      "default": 14,
+      "title": "导航数字字号 px",
+      "description": "导航数字字号 px",
+      "type": "number",
+      "minimum": 12,
+      "maximum": 20
+    },
+    "numberHeight": {
+      "default": 32,
+      "title": "档案编号按钮高度 px",
+      "description": "档案编号按钮高度 px",
+      "type": "number",
+      "minimum": 28,
+      "maximum": 48
+    },
+    "groupSize": {
+      "default": 36,
+      "title": "分组按钮大小 px",
+      "description": "分组按钮大小 px",
+      "type": "number",
+      "minimum": 32,
+      "maximum": 48
+    },
+    "contentWidth": {
+      "default": 860,
+      "title": "详情正文最大宽度 px",
+      "description": "详情正文最大宽度 px",
+      "type": "number",
+      "minimum": 600,
+      "maximum": 1200
+    },
+    "detailBodySize": {
+      "default": 17,
+      "title": "详情正文字号 px",
+      "description": "详情正文字号 px",
+      "type": "number",
+      "minimum": 16,
+      "maximum": 24
+    },
+    "mobilePreviewHeight": {
+      "default": 82,
+      "title": "手机预览区高度 px",
+      "description": "手机预览区高度 px",
+      "type": "number",
+      "minimum": 72,
+      "maximum": 130
+    },
+    "showIntro": {
+      "default": true,
+      "title": "显示简介",
+      "description": "显示简介",
+      "type": "boolean"
+    },
+    "showTopics": {
+      "default": true,
+      "title": "显示研究标签",
+      "description": "显示研究标签",
+      "type": "boolean"
+    },
+    "showPreview": {
+      "default": true,
+      "title": "显示预览面板",
+      "description": "显示预览面板",
+      "type": "boolean"
+    },
+    "showNavigation": {
+      "default": true,
+      "title": "显示导航按钮",
+      "description": "显示导航按钮",
+      "type": "boolean"
+    },
+    "showHints": {
+      "default": true,
+      "title": "显示操作提示",
+      "description": "显示操作提示",
+      "type": "boolean"
+    },
+    "showFooter": {
+      "default": true,
+      "title": "显示页脚",
+      "description": "显示页脚",
+      "type": "boolean"
+    },
+    "showCollection": {
+      "default": true,
+      "title": "显示总数",
+      "description": "显示总数",
+      "type": "boolean"
+    }
+  },
+  "scene": {
+    "cardAspect": {
+      "default": 1.4142857142857144,
+      "title": "档案高宽比",
+      "description": "档案高宽比",
+      "type": "number",
+      "minimum": 1.1,
+      "maximum": 1.7
+    },
+    "exposedFraction": {
+      "default": 0.3333333333333333,
+      "title": "档案露出高度比例",
+      "description": "档案露出高度比例",
+      "type": "number",
+      "minimum": 0.25,
+      "maximum": 0.45
+    },
+    "backgroundWave": {
+      "default": 0.78,
+      "title": "背景波浪幅度",
+      "description": "背景波浪幅度",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1.2
+    },
+    "selectionWave": {
+      "default": 0.82,
+      "title": "点击波浪幅度",
+      "description": "点击波浪幅度",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1.2
+    },
+    "idleWave": {
+      "default": 1,
+      "title": "待机起伏倍率",
+      "description": "待机起伏倍率",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "rowDamping": {
+      "default": 3.7,
+      "title": "纵向切换收敛速度",
+      "description": "纵向切换收敛速度",
+      "type": "number",
+      "minimum": 2,
+      "maximum": 12
+    },
+    "laneDamping": {
+      "default": 6.2,
+      "title": "横向切换收敛速度",
+      "description": "横向切换收敛速度",
+      "type": "number",
+      "minimum": 2,
+      "maximum": 12
+    },
+    "hoverLift": {
+      "default": 0.28,
+      "title": "悬停抬升高度",
+      "description": "悬停抬升高度",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 0.5
+    },
+    "wheelRowThreshold": {
+      "default": 100,
+      "title": "滚轮纵向切换阈值",
+      "description": "滚轮纵向切换阈值",
+      "type": "number",
+      "minimum": 40,
+      "maximum": 300
+    },
+    "wheelLaneThreshold": {
+      "default": 150,
+      "title": "滚轮横向切换阈值",
+      "description": "滚轮横向切换阈值",
+      "type": "number",
+      "minimum": 40,
+      "maximum": 300
+    },
+    "wheelCooldown": {
+      "default": 160,
+      "title": "滚轮切换间隔 ms",
+      "description": "滚轮切换间隔 ms",
+      "type": "number",
+      "minimum": 80,
+      "maximum": 500
+    },
+    "pixelRatio": {
+      "default": 2,
+      "title": "渲染像素比上限",
+      "description": "渲染像素比上限",
+      "type": "number",
+      "minimum": 1,
+      "maximum": 2
+    },
+    "depthOfField": {
+      "default": 15,
+      "title": "景深强度",
+      "description": "景深强度",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 30
+    },
+    "exposure": {
+      "default": 0.98,
+      "title": "场景曝光",
+      "description": "场景曝光",
+      "type": "number",
+      "minimum": 0.5,
+      "maximum": 1.5
+    },
+    "reduceMotion": {
+      "default": false,
+      "title": "减少动态效果",
+      "description": "始终尊重操作系统减少动画设置；此开关可额外减少。",
+      "type": "boolean"
+    },
+    "floor": {
+      "default": "#090c0f",
+      "title": "三维地面颜色",
+      "description": "三维地面颜色",
+      "type": "color"
+    },
+    "fog": {
+      "default": "#0b1014",
+      "title": "雾颜色",
+      "description": "雾颜色",
+      "type": "color"
+    },
+    "polymer": {
+      "default": "#626b70",
+      "title": "档案外壳",
+      "description": "档案外壳",
+      "type": "color"
+    },
+    "edges": {
+      "default": "#687277",
+      "title": "档案边缘",
+      "description": "档案边缘",
+      "type": "color"
+    },
+    "diffuser": {
+      "default": "#192226",
+      "title": "档案内层",
+      "description": "档案内层",
+      "type": "color"
+    },
+    "fasteners": {
+      "default": "#b1b9bb",
+      "title": "档案紧固件",
+      "description": "档案紧固件",
+      "type": "color"
+    },
+    "inlay": {
+      "default": "#c6a36b",
+      "title": "档案索引",
+      "description": "档案索引",
+      "type": "color"
+    },
+    "printedLabel": {
+      "default": "#303a3e",
+      "title": "印刷底层",
+      "description": "印刷底层",
+      "type": "color"
+    },
+    "optics": {
+      "default": "#939e9f",
+      "title": "光学内层",
+      "description": "光学内层",
+      "type": "color"
+    },
+    "opticalEdges": {
+      "default": "#bbc3bc",
+      "title": "透明边缘",
+      "description": "透明边缘",
+      "type": "color"
+    },
+    "ink": {
+      "default": "#b6bdb8",
+      "title": "墨色",
+      "description": "墨色",
+      "type": "color"
+    }
+  }
+}
