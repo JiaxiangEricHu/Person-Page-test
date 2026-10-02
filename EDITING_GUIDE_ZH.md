@@ -31,7 +31,7 @@
 | 个人档案样式 | [src/personal.css](src/personal.css) |
 | 小屏幕布局 | [src/responsive.css](src/responsive.css) |
 | 档案尺寸 | [src/archive-dimensions.ts](src/archive-dimensions.ts) |
-| 分类盒几何、磨砂盖与防遮挡 | [src/category-boxes.ts](src/category-boxes.ts) |
+| 分类盒、清晰顶面、侧板 Logo 与防遮挡 | [src/category-boxes.ts](src/category-boxes.ts) |
 | 轻量档案几何 | [src/lightweight-archive.ts](src/lightweight-archive.ts) |
 | 独立循环与索引 | [shared/topology.mjs](shared/topology.mjs)、[src/archive-loop.ts](src/archive-loop.ts) |
 | 分类校验 | [shared/groups.mjs](shared/groups.mjs) |
@@ -110,7 +110,7 @@ npm run preview
 - 列数：编辑 site.json → groups 数组，或编辑器中添加 / 删除列。
 - 行数：每列的 visibleRows，只影响同时显示的重复卡片；一列可有 1 篇、3 篇或更多项目。
 - 归类：项目 Markdown 的 group 对应列的 id。重排 groups 不改变归类。
-- 分类盒：name、keywords、logo、color 在 site.json；尺寸与磨砂材质在 scene.json。
+- 分类盒：name、keywords、logo、color 在 site.json；尺寸、抬升高度、左右/后方延展、Logo 比例在 scene.json；同一 logo 图片应用于顶面及盒身前侧面。
 - 发布：publishing.json → autoPublish。完整的手动发布、暂停更新和整站下线步骤见 README。
 - 隐藏整列：enabled: false，下一次发布时该列和其中项目详情页均被排除。若其他公开项目链接到被隐藏项目，构建会指出需修正的链接。
 - 原 chatgpt.site 网址不是这个工作流的目标；本次调整应用到 GitHub Pages。

@@ -132,14 +132,15 @@
 | `opticalEdges` | 透明边缘 | `"#bbc3bc"` | 透明边缘 |
 | `ink` | 墨色 | `"#b6bdb8"` | 墨色 |
 | `lightweightGeometry` | 轻量模型 | `true` | 使用程序生成的低面数卡片，免加载 GLB。 |
-| `showCategoryBoxes` | 显示分类盒 | `true` | 在各列外缘显示磨砂盖分类盒。 |
+| `showCategoryBoxes` | 显示分类盒 | `true` | 显示清晰顶面标签，以及向下、沿列延伸的分类盒身。 |
 | `categoryBoxWidth` | 分类盒宽度 | `4.3` | 三维场景中的盒子宽度。；2–4.8 |
 | `categoryBoxDepth` | 分类盒深度 | `2.3` | 增加深度可容纳更大关键词面板。；1–4 |
-| `categoryBoxElevation` | 分类盒抬升高度 | `3.2` | 从地面整体向上抬起；遇到选中项目的展示区域时自动降低避让。0–5 |
-| `categoryBoxHeight` | 分类盒高度 | `0.48` | 保持低矮，避免遮挡选中卡片。；0.2–1 |
+| `categoryBoxHeight` | 分类盒顶板厚度 | `0.48` | 顶部标签底板的厚度；盒身自动向下延伸至地面。；0.2–1 |
 | `categoryBoxGap` | 分类盒与阵列间距 | `0.6` | 盒子与最外侧一行的间距。；0.2–6 |
-| `categoryLidOpacity` | 磨砂盖不透明度 | `0.3` | 低值更清晰，高值更朦胧。；0.1–0.7 |
-| `categoryLidRoughness` | 磨砂盖粗糙度 | `0.7` | 调节高光和磨砂质感。；0.1–1 |
+| `categoryBoxElevation` | 分类盒抬升高度 | `3.2` | 顶板距地面的高度；盒身自动延伸到地面，顶板遇到选中项目时会降低避让。；0–5 |
+| `categoryBoxSideExtension` | 盒身左右延展 | `0.4` | 顶板及盒身每侧增加的宽度；总宽自动限制在列间距内，避免相邻盒子相交。；0–1 |
+| `categoryBoxRearExtension` | 侧板向列后方延展 | `0.8` | 侧板覆盖该列显示行后，继续向后延伸的长度。；0–6 |
+| `categoryBoxLogoScale` | 盒身 Logo 尺寸 | `0.72` | 前面与两侧的 Logo 显示比例；图片沿用该列的 logo 路径，没有图片时显示分类名称。；0.2–1 |
 
 ## publishing.json
 

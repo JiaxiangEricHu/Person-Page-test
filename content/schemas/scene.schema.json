@@ -210,7 +210,7 @@
     "showCategoryBoxes": {
       "default": true,
       "title": "显示分类盒",
-      "description": "在各列外缘显示磨砂盖分类盒。",
+      "description": "显示清晰顶面标签，以及向下、沿列延伸的分类盒身。",
       "type": "boolean"
     },
     "categoryBoxWidth": {
@@ -231,8 +231,8 @@
     },
     "categoryBoxHeight": {
       "default": 0.48,
-      "title": "分类盒高度",
-      "description": "保持低矮，避免遮挡选中卡片。",
+      "title": "分类盒顶板厚度",
+      "description": "顶部标签底板的厚度；盒身自动向下延伸至地面。",
       "type": "number",
       "minimum": 0.2,
       "maximum": 1
@@ -245,29 +245,37 @@
       "minimum": 0.2,
       "maximum": 6
     },
-    "categoryLidOpacity": {
-      "default": 0.3,
-      "title": "磨砂盖不透明度",
-      "description": "低值更清晰，高值更朦胧。",
-      "type": "number",
-      "minimum": 0.1,
-      "maximum": 0.7
-    },
-    "categoryLidRoughness": {
-      "default": 0.7,
-      "title": "磨砂盖粗糙度",
-      "description": "调节高光和磨砂质感。",
-      "type": "number",
-      "minimum": 0.1,
-      "maximum": 1
-    },
     "categoryBoxElevation": {
       "default": 3.2,
       "title": "分类盒抬升高度",
-      "description": "从地面整体向上抬起分类盒，让标签位于档案前方。遇到选中项目的展示区域时会自动降低避让。",
+      "description": "顶板距地面的高度；盒身自动延伸到地面，顶板遇到选中项目时会降低避让。",
       "type": "number",
       "minimum": 0,
       "maximum": 5
+    },
+    "categoryBoxSideExtension": {
+      "default": 0.4,
+      "title": "盒身左右延展",
+      "description": "顶板及盒身每侧增加的宽度；总宽自动限制在列间距内，避免相邻盒子相交。",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "categoryBoxRearExtension": {
+      "default": 0.8,
+      "title": "侧板向列后方延展",
+      "description": "侧板覆盖该列显示行后，继续向后延伸的长度。",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 6
+    },
+    "categoryBoxLogoScale": {
+      "default": 0.72,
+      "title": "盒身 Logo 尺寸",
+      "description": "前面与两侧的 Logo 显示比例；图片沿用该列的 logo 路径，没有图片时显示分类名称。",
+      "type": "number",
+      "minimum": 0.2,
+      "maximum": 1
     }
   },
   "required": [
@@ -303,9 +311,10 @@
     "categoryBoxDepth",
     "categoryBoxHeight",
     "categoryBoxGap",
-    "categoryLidOpacity",
-    "categoryLidRoughness",
-    "categoryBoxElevation"
+    "categoryBoxElevation",
+    "categoryBoxSideExtension",
+    "categoryBoxRearExtension",
+    "categoryBoxLogoScale"
   ],
   "additionalProperties": false
 }

@@ -14,7 +14,7 @@ const status=document.querySelector<HTMLElement>('#status')!;
 function groupsEditor(value:unknown){
  const groups=value as ArchiveGroup[];
  return `<section class="group-editor"><h2>分类列 · ${groups.length} 列</h2><p>每列的项目数量可不同；显示行数控制三维场景中的重复卡片。空列自动隐藏。修改 ID 或删除列之前，请先修改相关项目的 group。</p>${groups.map((g,i)=>`<fieldset class="group-card"><legend>第 ${i+1} 列 · ${e(g.name)}</legend><div class="group-actions"><button type="button" data-group-action="up" data-index="${i}" ${i===0?'disabled':''}>← 前移</button><button type="button" data-group-action="down" data-index="${i}" ${i===groups.length-1?'disabled':''}>后移 →</button><button type="button" data-group-action="remove" data-index="${i}" ${groups.length===1?'disabled':''}>删除列</button></div>${([
- ['id','固定 ID','text',g.id],['name','显示名称','text',g.name],['logo','Logo 路径（uploads/图片.png）','text',g.logo],['color','底座与标签颜色','color',g.color],['visibleRows','同时显示行数（1–48）','number',g.visibleRows]
+ ['id','固定 ID','text',g.id],['name','显示名称','text',g.name],['logo','Logo（顶面及盒身，uploads/图片.png）','text',g.logo],['color','底座与标签颜色','color',g.color],['visibleRows','同时显示行数（1–48）','number',g.visibleRows]
  ] as const).map(([key,label,type,v])=>`<label>${label}<input data-group="${i}" data-prop="${key}" type="${type}" value="${e(v)}" ${type==='number'?'min="1" max="48" step="1"':''}></label>`).join('')}<label>关键词（每行一个；盒面显示前两行）<textarea rows="2" data-group="${i}" data-prop="keywords">${e(g.keywords.join('\n'))}</textarea></label><label class="enabled"><input type="checkbox" data-group="${i}" data-prop="enabled" ${g.enabled?'checked':''}> 发布这一列（关闭后该列项目和详情页均不生成）</label></fieldset>`).join('')}<button type="button" data-group-action="add" ${groups.length>=12?'disabled':''}>＋ 添加一列</button></section>`;
 }
 function render(){
