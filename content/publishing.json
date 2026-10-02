@@ -1,4 +1,4 @@
 {
   "$schema": "./schemas/publishing.schema.json",
-  "autoPublish": false
+  "autoPublish": true
 }
