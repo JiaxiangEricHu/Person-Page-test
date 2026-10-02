@@ -33,5 +33,6 @@
   "categoryBoxHeight": 0.48,
   "categoryBoxGap": 0.6,
   "categoryLidOpacity": 0.3,
-  "categoryLidRoughness": 0.7
+  "categoryLidRoughness": 0.7,
+  "categoryBoxElevation": 3.2
 }

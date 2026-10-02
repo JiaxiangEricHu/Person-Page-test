@@ -740,6 +740,14 @@
       "type": "number",
       "minimum": 0.1,
       "maximum": 1
+    },
+    "categoryBoxElevation": {
+      "default": 3.2,
+      "title": "分类盒抬升高度",
+      "description": "从地面整体向上抬起分类盒，让标签位于档案前方。遇到选中项目的展示区域时会自动降低避让。",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
     }
   },
   "publishing": {

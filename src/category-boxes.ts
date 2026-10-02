@@ -74,14 +74,19 @@ export class CategoryBoxes {
       const halfSpan=Math.ceil(rows/2)*ROW_SPACING+settings.categoryBoxGap+settings.categoryBoxDepth/2;
       const x=(lane-2)*COLUMN_SPACING-trackX,centerZ=(centerRow-15.5)*ROW_SPACING+trackZ;
       box.visible=false;
-      // Front edge first; rear edge is a fallback when perspective causes overlap.
-      for(const sign of [1,-1]){
-        const z=centerZ+sign*halfSpan;
-        this.world.min.set(x-settings.categoryBoxWidth/2,-4.6,z-settings.categoryBoxDepth/2);
-        this.world.max.set(x+settings.categoryBoxWidth/2,-4.6+settings.categoryBoxHeight+.2,z+settings.categoryBoxDepth/2);
+      // Keep the label in front of its column, at the user-selected elevation.
+      // Lower it only when necessary to protect the selected project's exposed face;
+      // sending it behind the files would make the category unreadable again.
+      const z=centerZ+halfSpan;
+      const elevation=settings.categoryBoxElevation;
+      const attempts=Math.ceil(elevation/.25);
+      for(let step=0;step<=attempts;step++){
+        const y=-4.6+Math.max(0,elevation-step*.25);
+        this.world.min.set(x-settings.categoryBoxWidth/2,y,z-settings.categoryBoxDepth/2);
+        this.world.max.set(x+settings.categoryBoxWidth/2,y+settings.categoryBoxHeight+.2,z+settings.categoryBoxDepth/2);
         const rect=this.projectBounds(this.world,camera);
         const onScreen=rect.right>-.98&&rect.left<.98&&rect.bottom>-.95&&rect.top<.95;
-        if(onScreen&&!overlap(rect,protectedRect)) {box.position.set(x,-4.6,z);box.visible=true;break;}
+        if(onScreen&&!overlap(rect,protectedRect)) {box.position.set(x,y,z);box.visible=true;break;}
       }
     });
   }

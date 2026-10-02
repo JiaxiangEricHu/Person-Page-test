@@ -135,6 +135,7 @@
 | `showCategoryBoxes` | 显示分类盒 | `true` | 在各列外缘显示磨砂盖分类盒。 |
 | `categoryBoxWidth` | 分类盒宽度 | `4.3` | 三维场景中的盒子宽度。；2–4.8 |
 | `categoryBoxDepth` | 分类盒深度 | `2.3` | 增加深度可容纳更大关键词面板。；1–4 |
+| `categoryBoxElevation` | 分类盒抬升高度 | `3.2` | 从地面整体向上抬起；遇到选中项目的展示区域时自动降低避让。0–5 |
 | `categoryBoxHeight` | 分类盒高度 | `0.48` | 保持低矮，避免遮挡选中卡片。；0.2–1 |
 | `categoryBoxGap` | 分类盒与阵列间距 | `0.6` | 盒子与最外侧一行的间距。；0.2–6 |
 | `categoryLidOpacity` | 磨砂盖不透明度 | `0.3` | 低值更清晰，高值更朦胧。；0.1–0.7 |
