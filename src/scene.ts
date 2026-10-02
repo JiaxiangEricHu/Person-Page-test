@@ -38,6 +38,7 @@ import {
   LOOP_ROWS,
   COLUMN_SPACING,
   ROW_SPACING,
+  ARCHIVE_CENTER_ROW,
   type ArchiveCell,
   type ArchiveNavigation,
 } from "./archive-loop";
@@ -1667,10 +1668,14 @@ export class ArchiveScene {
     // Build and compact the instance set only after the actual damped camera
     // is final for this frame. Picking uses the same packed index-to-cell map.
     const fixed = (Boolean(cinematic) || !this.looping) && !responsiveOpening;
-    this.cells = fixed ? Array.from({ length: LOOP_COLUMNS * LOOP_ROWS }, (_, i) => poolCell(i)).filter(cell => { const w = rowWindow(12, archiveGroups[cell.lane].visibleRows); return cell.row >= w.start && cell.row <= w.end; })
-      : this.visibility.update(this.camera, fog.far, trackX, entryZ + this.rail.value, this.extraCoverage, this.shoulder.value);
-    this.recesses.update(trackX, entryZ + this.rail.value);
-    this.categoryBoxes.update(this.camera, trackX, entryZ + this.rail.value, this.shoulder.value, this.model, detail, this.presence > .99 && !cinematic);
+    const trackZ = entryZ + this.rail.value;
+    // Invert the scrolling transform so cards circulate inside a stationary box,
+    // including while dragging and after an infinite-scroll coordinate rebase.
+    const visibleCenterRow = ARCHIVE_CENTER_ROW - trackZ / ROW_SPACING;
+    this.cells = fixed ? Array.from({ length: LOOP_COLUMNS * LOOP_ROWS }, (_, i) => poolCell(i)).filter(cell => { const w = rowWindow(ARCHIVE_CENTER_ROW, archiveGroups[cell.lane].visibleRows); return cell.row >= w.start && cell.row <= w.end; })
+      : this.visibility.update(this.camera, fog.far, trackX, trackZ, this.extraCoverage, visibleCenterRow);
+    this.recesses.update(trackX, trackZ);
+    this.categoryBoxes.update(trackX, detail, this.presence > .99 && !cinematic);
     const hidden = new Set(this.outgoing.map(o => cellKey(o.cell)));
     hidden.add(cellKey(this.selectedCell));
     this.drawnCells = [];

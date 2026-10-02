@@ -31,7 +31,7 @@
 | 个人档案样式 | [src/personal.css](src/personal.css) |
 | 小屏幕布局 | [src/responsive.css](src/responsive.css) |
 | 档案尺寸 | [src/archive-dimensions.ts](src/archive-dimensions.ts) |
-| 分类盒、清晰顶面、侧板 Logo 与防遮挡 | [src/category-boxes.ts](src/category-boxes.ts) |
+| 固定分类盒、清晰顶面与侧板 Logo | [src/category-boxes.ts](src/category-boxes.ts) |
 | 轻量档案几何 | [src/lightweight-archive.ts](src/lightweight-archive.ts) |
 | 独立循环与索引 | [shared/topology.mjs](shared/topology.mjs)、[src/archive-loop.ts](src/archive-loop.ts) |
 | 分类校验 | [shared/groups.mjs](shared/groups.mjs) |

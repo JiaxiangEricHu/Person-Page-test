@@ -8,6 +8,7 @@ export const LOOP_COLUMNS = archiveColumns.length;
 export const LOOP_ROWS = Math.max(1,...archiveGroups.map(g=>g.visibleRows));
 export const COLUMN_SPACING = 5.2;
 export const ROW_SPACING = 0.62;
+export const ARCHIVE_CENTER_ROW = 12;
 const POOL_LANES = archiveColumns.map((_,i)=>i);
 export const clampLane = (lane: number) => Math.max(0, Math.min(archiveColumns.length - 1, lane));
 export function resistLane(lane: number) {
@@ -60,7 +61,7 @@ export function selectionCell(
 export function poolCell(index: number): ArchiveCell {
   return {
     lane: POOL_LANES[Math.floor(index / LOOP_ROWS)],
-    row: 12 + index % LOOP_ROWS - Math.floor((LOOP_ROWS - 1) / 2),
+    row: ARCHIVE_CENTER_ROW + index % LOOP_ROWS - Math.floor((LOOP_ROWS - 1) / 2),
   };
 }
 

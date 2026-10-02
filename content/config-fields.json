@@ -728,7 +728,7 @@
     "categoryBoxElevation": {
       "default": 3.2,
       "title": "分类盒抬升高度",
-      "description": "顶板距地面的高度；盒身自动延伸到地面，顶板遇到选中项目时会降低避让。",
+      "description": "顶板距地面的固定高度；盒身延伸到地面，不随项目选择、滚动或波浪升降。",
       "type": "number",
       "minimum": 0,
       "maximum": 5
