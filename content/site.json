@@ -5,9 +5,42 @@
   "brand": "ERIC",
   "description": "关注微电子、可穿戴设备与生物传感，探索从器件到系统的研究与设计。",
   "groups": [
-    "档案分组 01",
-    "档案分组 02",
-    "档案分组 03"
+    {
+      "id": "group-01",
+      "name": "半导体",
+      "keywords": [
+        "SEMICONDUCTORS",
+        "器件 · 微电子"
+      ],
+      "logo": "",
+      "color": "#c7a66e",
+      "visibleRows": 8,
+      "enabled": true
+    },
+    {
+      "id": "group-02",
+      "name": "PCB",
+      "keywords": [
+        "PCB DESIGN",
+        "电路 · 系统"
+      ],
+      "logo": "",
+      "color": "#87b6aa",
+      "visibleRows": 8,
+      "enabled": true
+    },
+    {
+      "id": "group-03",
+      "name": "研究与设计",
+      "keywords": [
+        "RESEARCH",
+        "原型 · 探索"
+      ],
+      "logo": "",
+      "color": "#a0a9c7",
+      "visibleRows": 8,
+      "enabled": true
+    }
   ],
   "topics": [
     "Microelectronics",

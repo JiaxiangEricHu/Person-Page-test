@@ -1,14 +1,14 @@
-import { archiveColumns, columnFiles, fileLocation } from "./data.ts";
+import { archiveColumns, archiveGroups, columnFiles, fileLocation, cellFile } from "./data.ts";
 
 export type ArchiveCell = { lane: number; row: number };
 export type ArchiveNavigation =
   { axis: "row" | "lane"; direction: number } | { cell: ArchiveCell };
 
-export const LOOP_COLUMNS = 3;
-export const LOOP_ROWS = 32;
+export const LOOP_COLUMNS = archiveColumns.length;
+export const LOOP_ROWS = Math.max(1,...archiveGroups.map(g=>g.visibleRows));
 export const COLUMN_SPACING = 5.2;
 export const ROW_SPACING = 0.62;
-const POOL_LANES = [0, 1, 2];
+const POOL_LANES = archiveColumns.map((_,i)=>i);
 export const clampLane = (lane: number) => Math.max(0, Math.min(archiveColumns.length - 1, lane));
 export function resistLane(lane: number) {
   const bound = clampLane(lane), excess = lane - bound;
@@ -29,20 +29,18 @@ export function nearestOccurrence(
   return value + Math.floor((center - value + period / 2) / period) * period;
 }
 
-export function fileAtCell({ lane, row }: ArchiveCell) {
-  const files = columnFiles(wrap(lane, archiveColumns.length));
-  return files[wrap(row - 12, files.length)];
-}
+export const fileAtCell = cellFile;
 
 export function selectionCell(
   index: number,
   current: ArchiveCell,
   navigation?: ArchiveNavigation,
+  rowOrigin = 0,
 ): ArchiveCell {
   if (navigation && "cell" in navigation) return { ...navigation.cell, lane: clampLane(navigation.cell.lane) };
   const next = fileLocation(index);
   const row = nearestOccurrence(
-    next.row,
+    next.row - rowOrigin,
     current.row,
     columnFiles(next.lane).length,
   );
@@ -58,11 +56,11 @@ export function selectionCell(
   };
 }
 
-// Three physical lanes; only the file sequence loops vertically.
+// Configured physical lanes; each file sequence loops independently.
 export function poolCell(index: number): ArchiveCell {
   return {
     lane: POOL_LANES[Math.floor(index / LOOP_ROWS)],
-    row: index % LOOP_ROWS,
+    row: 12 + index % LOOP_ROWS - Math.floor((LOOP_ROWS - 1) / 2),
   };
 }
 

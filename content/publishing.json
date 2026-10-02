@@ -1,0 +1,4 @@
+{
+  "$schema": "./schemas/publishing.schema.json",
+  "autoPublish": true
+}

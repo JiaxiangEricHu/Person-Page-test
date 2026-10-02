@@ -11,91 +11,91 @@
       "title": "背景",
       "description": "背景",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "text": {
       "default": "#e8e8e4",
       "title": "主要文字",
       "description": "主要文字",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "muted": {
       "default": "#9aa5ac",
       "title": "次要文字",
       "description": "次要文字",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "accent": {
       "default": "#c7a66e",
       "title": "强调色",
       "description": "强调色",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "line": {
       "default": "#ccd8df",
       "title": "边框基础色",
       "description": "边框基础色",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "panel": {
       "default": "#101722",
       "title": "玻璃面板底色",
       "description": "玻璃面板底色",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "cardPaper": {
       "default": "#f1eee6",
       "title": "档案标签纸色",
       "description": "档案标签纸色",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "cardImage": {
       "default": "#deded1",
       "title": "档案缩略图底色",
       "description": "档案缩略图底色",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "cardGrid": {
       "default": "#bdc2b1",
       "title": "标签网格",
       "description": "标签网格",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "cardGraph": {
       "default": "#394731",
       "title": "标签曲线",
       "description": "标签曲线",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "cardText": {
       "default": "#252821",
       "title": "标签标题",
       "description": "标签标题",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "cardSubtitle": {
       "default": "#3b4137",
       "title": "标签副标题",
       "description": "标签副标题",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "placeholder": {
       "default": "#6a7958",
       "title": "占位缩略图",
       "description": "占位缩略图",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "fontFamily": {
       "default": "Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
@@ -107,121 +107,121 @@
       "default": 16,
       "title": "正文大小 px",
       "description": "正文大小 px",
+      "type": "number",
       "minimum": 14,
-      "maximum": 24,
-      "type": "number"
+      "maximum": 24
     },
     "titleSize": {
       "default": 24,
       "title": "预览标题 px",
       "description": "预览标题 px",
+      "type": "number",
       "minimum": 18,
-      "maximum": 36,
-      "type": "number"
+      "maximum": 36
     },
     "brandSize": {
       "default": 38,
       "title": "桌面品牌字号 px",
       "description": "桌面品牌字号 px",
+      "type": "number",
       "minimum": 20,
-      "maximum": 52,
-      "type": "number"
+      "maximum": 52
     },
     "panelWidth": {
       "default": 350,
       "title": "桌面侧栏最大宽度 px",
       "description": "桌面侧栏最大宽度 px",
+      "type": "number",
       "minimum": 300,
-      "maximum": 420,
-      "type": "number"
+      "maximum": 420
     },
     "panelRadius": {
       "default": 14,
       "title": "面板圆角 px",
       "description": "面板圆角 px",
+      "type": "number",
       "minimum": 0,
-      "maximum": 32,
-      "type": "number"
+      "maximum": 32
     },
     "panelPadding": {
       "default": 22,
       "title": "面板内边距 px",
       "description": "面板内边距 px",
+      "type": "number",
       "minimum": 12,
-      "maximum": 32,
-      "type": "number"
+      "maximum": 32
     },
     "panelBlur": {
       "default": 24,
       "title": "玻璃模糊 px",
       "description": "玻璃模糊 px",
+      "type": "number",
       "minimum": 0,
-      "maximum": 40,
-      "type": "number"
+      "maximum": 40
     },
     "panelOpacity": {
       "default": 0.65,
       "title": "面板不透明度",
       "description": "面板不透明度",
+      "type": "number",
       "minimum": 0.2,
-      "maximum": 1,
-      "type": "number"
+      "maximum": 1
     },
     "previewImageFraction": {
       "default": 0.3333333333333333,
       "title": "缩略图占卡片宽度比例",
       "description": "缩略图占卡片宽度比例",
+      "type": "number",
       "minimum": 0.2,
-      "maximum": 0.5,
-      "type": "number"
+      "maximum": 0.5
     },
     "numberSize": {
       "default": 14,
       "title": "导航数字字号 px",
       "description": "导航数字字号 px",
+      "type": "number",
       "minimum": 12,
-      "maximum": 20,
-      "type": "number"
+      "maximum": 20
     },
     "numberHeight": {
       "default": 32,
       "title": "档案编号按钮高度 px",
       "description": "档案编号按钮高度 px",
+      "type": "number",
       "minimum": 28,
-      "maximum": 48,
-      "type": "number"
+      "maximum": 48
     },
     "groupSize": {
       "default": 36,
       "title": "分组按钮大小 px",
       "description": "分组按钮大小 px",
+      "type": "number",
       "minimum": 32,
-      "maximum": 48,
-      "type": "number"
+      "maximum": 48
     },
     "contentWidth": {
       "default": 860,
       "title": "详情正文最大宽度 px",
       "description": "详情正文最大宽度 px",
+      "type": "number",
       "minimum": 600,
-      "maximum": 1200,
-      "type": "number"
+      "maximum": 1200
     },
     "detailBodySize": {
       "default": 17,
       "title": "详情正文字号 px",
       "description": "详情正文字号 px",
+      "type": "number",
       "minimum": 16,
-      "maximum": 24,
-      "type": "number"
+      "maximum": 24
     },
     "mobilePreviewHeight": {
       "default": 82,
       "title": "手机预览区高度 px",
       "description": "手机预览区高度 px",
+      "type": "number",
       "minimum": 72,
-      "maximum": 130,
-      "type": "number"
+      "maximum": 130
     },
     "showIntro": {
       "default": true,

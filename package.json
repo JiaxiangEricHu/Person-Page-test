@@ -20,7 +20,8 @@
     "preview": "vite preview --host 127.0.0.1",
     "content": "node scripts/content.mjs",
     "check:config": "node scripts/config.mjs && node --test scripts/check-config.mjs",
-    "edit": "npm run dev -- --open /editor.html"
+    "edit": "npm run dev -- --open /editor.html",
+    "check:columns": "node --test scripts/check-columns.mjs"
   },
   "dependencies": {
     "@kitlangton/rolling-number": "0.4.1",

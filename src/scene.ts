@@ -10,7 +10,9 @@ import { disposeThreeTree } from "./three-resources";
 import { ThemeWave } from "./theme-motion";
 import { themeMaterial, themeEnvironment } from "./theme-material";
 import { RhythmMotion, rhythmDisplacement, quietBands, type MusicBands, type RhythmStyle } from "./archive-play-motion";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import {createLightweightArchive} from './lightweight-archive';
+import {CategoryBoxes} from './category-boxes';
+import {rowWindow} from '../shared/topology.mjs';
 import { createArchiveLighting, type LightingLook } from "./archive-lighting";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
@@ -22,7 +24,7 @@ import { applyTextureQuality, resizeQuality } from "./quality-renderer";
 import { CardAppearance } from "./appearance";
 import { configureInternalOptics } from "./internal-optics";
 import { DecryptionController } from "./decryption";
-import { fileAtSlot, fileLocation, records, archiveColumns, columnFiles } from "./data";
+import { fileAtSlot, fileLocation, records, archiveGroups, archiveColumns, columnFiles, SLOT_STRIDE } from "./data";
 import { drawArchivePreview } from "./preview-canvas";
 import {
   cellKey,
@@ -80,6 +82,7 @@ export class ArchiveScene {
   }
   revealImmediately() { this.reveal = this.targetReveal; }
   dispose() {
+    this.categoryBoxes.dispose();
     this.inputEvents.abort();
     this.cancelPointer();
     disposeThreeTree(this.scene);
@@ -181,6 +184,7 @@ export class ArchiveScene {
   private reusedFrames = 0;
   private visibility = new ArchiveVisibility();
   private recesses: ArchiveRecesses;
+  private categoryBoxes: CategoryBoxes;
   private lateralSway = { value: 0, velocity: 0 };
   private previousTrackX = 0;
   private instanceCapacity = LOOP_COLUMNS * LOOP_ROWS;
@@ -314,6 +318,7 @@ export class ArchiveScene {
     floor.receiveShadow = true;
     this.scene.add(floor);
     this.recesses = new ArchiveRecesses(this.scene, floor.material);
+    this.categoryBoxes = new CategoryBoxes(this.scene, () => this.renderState.invalidate());
     this.camera.position.set(-62.26, 35.98, 43.28);
     this.cameraAim.set(-0.5, 1.1, 0.4);
     this.camera.fov = 6.15;
@@ -344,12 +349,12 @@ export class ArchiveScene {
   async load(assetUrl = publicAsset("assets/archive-cassette.glb")) {
     this.labelMark.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(labelMarkSvg)}`;
     await this.labelMark.decode();
-    const gltf = await new GLTFLoader().loadAsync(
-      assetUrl,
-    );
-    gltf.scene.updateMatrixWorld(true);
+    const sourceScene = settings.lightweightGeometry
+      ? createLightweightArchive()
+      : (await new (await import('three/addons/loaders/GLTFLoader.js')).GLTFLoader().loadAsync(assetUrl)).scene;
+    sourceScene.updateMatrixWorld(true);
     const meshes: THREE.Mesh[] = [];
-    gltf.scene.traverse((o) => {
+    sourceScene.traverse((o) => {
       if (o instanceof THREE.Mesh) meshes.push(o);
     });
     const count = LOOP_COLUMNS * LOOP_ROWS;
@@ -468,6 +473,11 @@ export class ArchiveScene {
         arrayMat.color.set("#e4d6c5");
         arrayMat.metalness = 0.05;
       }
+      if (settings.lightweightGeometry) {
+        mat.transmission = arrayMat.transmission = 0;
+        mat.roughness = .48; arrayMat.roughness = .6;
+        mat.clearcoat = arrayMat.clearcoat = .12;
+      }
       this.appearance.register(name, mat, arrayMat);
       this.themeAttribute ??= new THREE.InstancedBufferAttribute(new Float32Array(count), 1).setUsage(THREE.DynamicDrawUsage);
       geom.setAttribute("archiveTheme", this.themeAttribute);
@@ -502,14 +512,15 @@ export class ArchiveScene {
     this.appearance.apply(this.model, 0);
     this.drawLabel(0);
     this.scene.add(this.model);
-    this.model.position.copy(this.cellPosition(poolCell(this.selectedSlot)));
+    this.model.position.copy(this.cellPosition(fileLocation(0)));
+    disposeThreeTree(sourceScene);
     this.loaded = true;
   }
 
   private assemblyTemplate?: Promise<THREE.Group>;
   async createAssemblyModel() {
-    this.assemblyTemplate ??= new GLTFLoader()
-      .loadAsync(publicAsset("assets/archive-assembly.glb"))
+    this.assemblyTemplate ??= import('three/addons/loaders/GLTFLoader.js')
+      .then(({GLTFLoader}) => new GLTFLoader().loadAsync(publicAsset("assets/archive-assembly.glb")))
       .then((gltf) => {
         gltf.scene.updateMatrixWorld(true);
         return gltf.scene;
@@ -691,7 +702,7 @@ export class ArchiveScene {
     const next = fileLocation(index).slot;
     const canonical = fileLocation(index);
     const cell = this.looping
-      ? selectionCell(index, this.selectedCell, navigation)
+      ? selectionCell(index, this.selectedCell, navigation, this.coordinateOrigin.row)
       : { lane: canonical.lane, row: canonical.row };
     const changed = !sameCell(cell, this.selectedCell);
     if (this.looping && changed && this.loaded && this.lift.value > 0.0001) {
@@ -848,7 +859,7 @@ export class ArchiveScene {
     )
       return;
     this.hoverCell = cell ? { ...cell } : null;
-    this.onHover?.(cell ? fileAtCell(cell) : null);
+    this.onHover?.(cell ? fileAtCell(cell, this.coordinateOrigin.row) : null);
   }
   private pickCell(x: number, y: number, tolerance = 8) {
     const direct = this.pickExactCell(x, y);
@@ -935,7 +946,7 @@ export class ArchiveScene {
           lane: Math.round(from.lane + (goal.lane - from.lane) * i / steps),
           row: Math.round(from.row + (goal.row - from.row) * i / steps),
         };
-        if (!sameCell(cell, this.selectedCell)) this.onSelect?.(fileAtCell(cell), cell);
+        if (!sameCell(cell, this.selectedCell)) this.onSelect?.(fileAtCell(cell, this.coordinateOrigin.row), cell);
       }
     } finally {
       this.navigatingDrag = false;
@@ -1104,7 +1115,7 @@ export class ArchiveScene {
           }
         } else if (!moved) {
           const cell = this.pickCell(e.clientX, e.clientY, e.pointerType === "mouse" ? 8 : 18);
-          if (cell) this.onSelect?.(fileAtCell(cell), cell);
+          if (cell) this.onSelect?.(fileAtCell(cell, this.coordinateOrigin.row), cell);
         }
       }
       reset();
@@ -1656,9 +1667,10 @@ export class ArchiveScene {
     // Build and compact the instance set only after the actual damped camera
     // is final for this frame. Picking uses the same packed index-to-cell map.
     const fixed = (Boolean(cinematic) || !this.looping) && !responsiveOpening;
-    this.cells = fixed ? Array.from({ length: LOOP_COLUMNS * LOOP_ROWS }, (_, i) => poolCell(i))
-      : this.visibility.update(this.camera, fog.far, trackX, entryZ + this.rail.value, this.extraCoverage).filter(cell => cell.lane >= 0 && cell.lane < archiveColumns.length);
+    this.cells = fixed ? Array.from({ length: LOOP_COLUMNS * LOOP_ROWS }, (_, i) => poolCell(i)).filter(cell => { const w = rowWindow(12, archiveGroups[cell.lane].visibleRows); return cell.row >= w.start && cell.row <= w.end; })
+      : this.visibility.update(this.camera, fog.far, trackX, entryZ + this.rail.value, this.extraCoverage, this.shoulder.value);
     this.recesses.update(trackX, entryZ + this.rail.value);
+    this.categoryBoxes.update(this.camera, trackX, entryZ + this.rail.value, this.shoulder.value, this.model, detail, this.presence > .99 && !cinematic);
     const hidden = new Set(this.outgoing.map(o => cellKey(o.cell)));
     hidden.add(cellKey(this.selectedCell));
     this.drawnCells = [];
@@ -1830,7 +1842,7 @@ export class ArchiveScene {
       pulses: this.pulses.map((pulse) => ({ ...pulse })),
       referenceTime: Math.round((this.scanTime + 5) * 100) / 100,
       selectedSlot: this.selectedSlot,
-      selectedLane: Math.floor(this.selectedSlot / 32),
+      selectedLane: Math.floor(this.selectedSlot / SLOT_STRIDE),
       selectedCell: { ...this.selectedCell },
       hoverCell: this.hoverCell ? { ...this.hoverCell } : null,
       hoverLifts: Object.fromEntries(this.hoverLifts),

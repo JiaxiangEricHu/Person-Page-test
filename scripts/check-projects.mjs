@@ -28,10 +28,10 @@ test('add, edit, hide and delete pages update the catalog; empty groups and empt
   assert.equal(data.projects.length,0);assert.deepEqual(data.content.columns,[]);
 }));
 
-test('single-row navigation may exceed eight entries; capacity errors are explicit',()=>fixture(async(directory,write)=>{
-  for(let i=1;i<=20;i++)await write(`project-${i}`);
-  assert.equal((await readProjects(directory)).projects.length,20);
-  await write('project-21');await assert.rejects(()=>readProjects(directory),/超过 20 篇/);
+test('each column accepts more than the former 20-item and 32-slot limits',()=>fixture(async(directory,write)=>{
+  for(let i=1;i<=41;i++)await write(`project-${i}`);
+  assert.equal((await readProjects(directory)).projects.length,41);
+  const data=await readProjects(directory);assert.equal(data.content.groups.length,1);assert.equal(data.content.records.at(-1).group,'group-01');
 }));
 
 test('Markdown creates safe static pages with nested-path images, files, and project links',()=>fixture(async(directory,write)=>{
@@ -54,4 +54,18 @@ test('missing images and draft links stop publication instead of producing broke
   await write('missing',1,'','[Draft](draft.md)');await write('draft',2,'draft: true');
   const {projects}=await readProjects(directory);
   await assert.rejects(()=>renderMarkdown(projects[0],projects,directory),/不存在或仍是草稿/);
+}));
+
+test('stable group IDs follow reordered columns; disabled columns omit all their pages',()=>fixture(async(directory,write)=>{
+  const sitePath=path.join(directory,'content/site.json'),site=JSON.parse(await fs.readFile(sitePath,'utf8'));
+  const group=(id,name,enabled=true)=>({id,name,enabled,visibleRows:5,color:'#abcdef',keywords:[],logo:''});
+  site.groups=[group('pcb','PCB'),group('semiconductor','半导体'),group('hidden','Hidden',false),group('empty','Empty')];
+  await fs.writeFile(sitePath,JSON.stringify(site));
+  await write('chip','semiconductor');await write('circuit','pcb');await write('secret','hidden');
+  let data=await readProjects(directory);
+  assert.deepEqual(data.content.columns,['PCB','半导体']);assert.deepEqual(data.projects.map(p=>p.slug),['circuit','chip']);
+  assert.equal(data.content.records[0].group,'pcb');
+  site.groups.reverse();await fs.writeFile(sitePath,JSON.stringify(site));
+  data=await readProjects(directory);assert.deepEqual(data.projects.map(p=>p.slug),['chip','circuit']);
+  await write('missing','unknown');await assert.rejects(()=>readProjects(directory),/分组 ID/);
 }));

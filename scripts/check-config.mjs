@@ -9,7 +9,7 @@ test('invalid motion and color settings stop a build; valid edited settings reac
  const folder=await fs.mkdtemp(path.join(os.tmpdir(),'archive-config-'));
  try{
   await fs.mkdir(path.join(folder,'content'));
-  for(const name of ['site','ui','design','scene'])await fs.copyFile(path.join(configRoot,`content/${name}.json`),path.join(folder,`content/${name}.json`));
+  for(const name of ['site','ui','design','scene','publishing'])await fs.copyFile(path.join(configRoot,`content/${name}.json`),path.join(folder,`content/${name}.json`));
   const c=await readConfig(folder);
   c.design.accent='#123456';c.design.contentWidth=1000;c.ui.allProjects='<script>oops</script>';c.ui.emptyTitle='Empty custom';
   assert.match(themeCss(c),/--accent:#123456/);assert.match(themeCss(c),/--content-width:1000px/);

@@ -1,3 +1,5 @@
+import {archiveGroups} from './data.ts';
+import {rowWindow} from '../shared/topology.mjs';
 import * as THREE from 'three';
 import { CARD_BOTTOM, CARD_TOP } from './archive-dimensions.ts';
 import { COLUMN_SPACING, ROW_SPACING, type ArchiveCell } from './archive-loop.ts';
@@ -12,9 +14,9 @@ export class ArchiveVisibility {
   candidates = 0;
   private previous: number[] = [];
   private cachedCells: ArchiveCell[] = [];
-  update(source: THREE.PerspectiveCamera, far: number, trackX: number, trackZ: number, extra: boolean): ArchiveCell[] {
+  update(source: THREE.PerspectiveCamera, far: number, trackX: number, trackZ: number, extra: boolean, centerRow = 12): ArchiveCell[] {
     const inputs = [...source.projectionMatrix.elements, ...source.matrixWorldInverse.elements,
-      source.near, source.far, far, trackX, trackZ, Number(extra)];
+      source.near, source.far, far, trackX, trackZ, Number(extra), centerRow];
     if (inputs.every((value, i) => value === this.previous[i])) return this.cachedCells;
     this.previous = inputs;
     this.camera.copy(source, false);
@@ -45,11 +47,14 @@ export class ArchiveVisibility {
     const minRow=Math.floor((slab.min.z-.6-trackZ)/ROW_SPACING+15.5)-2;
     const maxRow=Math.ceil((slab.max.z+.6-trackZ)/ROW_SPACING+15.5)+2;
     const cells: ArchiveCell[]=[];
-    for(let lane=minLane;lane<=maxLane;lane++)for(let row=minRow;row<=maxRow;row++) {
+    for(let lane=Math.max(0,minLane);lane<=Math.min(archiveGroups.length-1,maxLane);lane++) {
+      const window=rowWindow(centerRow,archiveGroups[lane].visibleRows);
+      for(let row=Math.max(minRow,window.start);row<=Math.min(maxRow,window.end);row++) {
       const x=(lane-2)*COLUMN_SPACING-trackX, z=(row-15.5)*ROW_SPACING+trackZ;
       this.box.min.set(x-2.8,bottom,z-1.2);
       this.box.max.set(x+2.8,top,z+1.2);
       if(this.frustum.intersectsBox(this.box))cells.push({lane,row});
+    }
     }
     this.candidates=cells.length;
     return this.cachedCells = cells;

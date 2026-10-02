@@ -22,3 +22,5 @@ body[data-show-intro=false] .intro-panel,body[data-show-topics=false] .intro-top
 
 /* Override the legacy column direction: archive numbers stay on one row. */
 .row-nav #row-ticks{flex-direction:row}
+
+.category-caption{color:var(--accent);font-size:12px;letter-spacing:.08em;margin:8px 0 12px}#columns{max-width:min(55vw,600px);overflow-x:auto;scrollbar-width:thin;flex-wrap:nowrap}#columns button{flex:none}

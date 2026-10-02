@@ -1,10 +1,11 @@
+import {archiveGroups} from './data';
 import * as THREE from 'three';
 import { COLUMN_SPACING, ROW_SPACING } from './archive-loop';
 
 /** Empty cassette wells share the array's tracks, but cannot be selected. */
 export class ArchiveRecesses {
-  private readonly lanes = [-2, -1, 3, 4];
-  private readonly rows = 112;
+  private readonly lanes = [-1, archiveGroups.length];
+  private readonly rows = Math.max(8,...archiveGroups.map(g=>g.visibleRows))+8;
   private readonly track = { value: new THREE.Vector2() };
   private readonly transform = new THREE.Object3D();
   private readonly wells: THREE.InstancedMesh;
@@ -22,7 +23,7 @@ export class ArchiveRecesses {
         float dx = abs(recessPosition.x + recessTrack.x - (lane - 2.0) * ${COLUMN_SPACING.toFixed(2)});
         float rz = recessPosition.z - recessTrack.y;
         float dz = abs(mod(rz + 15.5 * ${ROW_SPACING.toFixed(2)} + ${(.5 * ROW_SPACING).toFixed(2)}, ${ROW_SPACING.toFixed(2)}) - ${(.5 * ROW_SPACING).toFixed(2)});
-        if ((lane == -2.0 || lane == -1.0 || lane == 3.0 || lane == 4.0) && dx < 2.36 && dz < 0.22) discard;
+        if ((lane == -1.0 || lane == ${archiveGroups.length.toFixed(1)}) && dx < 2.36 && dz < 0.22) discard;
       `);
     };
     floor.customProgramCacheKey = () => 'archive-recess-floor-v1';
@@ -56,7 +57,7 @@ export class ArchiveRecesses {
     if (this.track.value.x === trackX && this.track.value.y === trackZ && this.wells.instanceMatrix.version) return;
     this.track.value.set(trackX, trackZ);
     let index = 0;
-    const firstRow = Math.round(15.5 - trackZ / ROW_SPACING) - this.rows / 2;
+    const firstRow = Math.round(15.5 - trackZ / ROW_SPACING) - Math.floor(this.rows / 2);
     for (const lane of this.lanes) for (let row = firstRow; row < firstRow + this.rows; row++) {
       this.transform.position.set((lane - 2) * COLUMN_SPACING - trackX, -4.629, (row - 15.5) * ROW_SPACING + trackZ);
       this.transform.updateMatrix();

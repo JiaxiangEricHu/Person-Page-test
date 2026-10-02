@@ -4,18 +4,18 @@
 
 先阅读根目录 README 的集中配置表。网站入口为 index.html，表单编辑器为 editor.html。
 
-- 最常用：content/site.json、ui.json、design.json、scene.json。
+- 最常用：content/site.json、ui.json、design.json、scene.json、publishing.json。
 - 编辑器是导入/导出工具；导出后还需替换仓库中的文件并提交。它不直接更改线上网站。
 - JSON 编辑器会读取 content/schemas 的字段说明；每个配置字段的中文含义、范围、默认值见 CONFIG_REFERENCE_ZH.md。
 - 颜色使用 #RRGGBB；长度单位在参数名称或说明中标明。配置错误会阻止构建并显示字段名。
-- 三个分组是当前三维模型的设计约束；每组最多 20 篇。修改分组数量、模型拓扑或增加新交互仍需改源码。
+- 分类列支持 1–12 列，每列同时渲染 1–48 行。项目数量独立，按各自总数循环。修改分组数量无需改三维源码。
 - 数据展示、样式、几何与交互均保留源文件；“易修改”不代表任意重新设计都只需配置。
 
 ## 内容修改
 
 | 你想修改的内容 | 对应文件 | 操作 |
 | --- | --- | --- |
-| 网站标题、姓名、品牌、简介、三个分组 | [content/site.json](content/site.json) | 修改字符串，保留 JSON 双引号及逗号 |
+| 网站标题、姓名、品牌、简介、分类列 | [content/site.json](content/site.json) | 修改字符串，保留 JSON 双引号及逗号 |
 | 第一张档案及其详情 | [content/projects/archive-01.md](content/projects/archive-01.md) | 修改顶部属性和下面 Markdown 正文 |
 | 其他档案及详情 | [content/projects/](content/projects/) | 一篇文件对应一张档案和一个详情页 |
 | 新增档案 | [content/project-template.md](content/project-template.md) | 复制到 projects 下，使用新文件名，设置 draft: false |
@@ -31,12 +31,17 @@
 | 个人档案样式 | [src/personal.css](src/personal.css) |
 | 小屏幕布局 | [src/responsive.css](src/responsive.css) |
 | 档案尺寸 | [src/archive-dimensions.ts](src/archive-dimensions.ts) |
+| 分类盒几何、磨砂盖与防遮挡 | [src/category-boxes.ts](src/category-boxes.ts) |
+| 轻量档案几何 | [src/lightweight-archive.ts](src/lightweight-archive.ts) |
+| 独立循环与索引 | [shared/topology.mjs](shared/topology.mjs)、[src/archive-loop.ts](src/archive-loop.ts) |
+| 分类校验 | [shared/groups.mjs](shared/groups.mjs) |
+| 每列渲染预算 | [src/archive-visibility.ts](src/archive-visibility.ts) |
 | 三维场景 | [src/scene.ts](src/scene.ts) |
 | 三维模型 | [public/assets/](public/assets/) |
 | Markdown 读取与详情页生成 | [scripts/content.mjs](scripts/content.mjs) |
 | 详情页样式 | [public/project.css](public/project.css) |
 | 静态构建配置 | [vite.config.ts](vite.config.ts) |
-| GitHub Pages 自动发布 | [.github/workflows/pages.yml](.github/workflows/pages.yml) |
+| GitHub Pages 发布控制 | [.github/workflows/pages.yml](.github/workflows/pages.yml) |
 
 content/archives.json 是自动生成文件，不作为日常编辑入口。24 篇现有项目为占位内容，请填写真实项目后发布。不要把密钥或未获准公开的材料写入这个公开仓库。
 
@@ -44,10 +49,10 @@ content/archives.json 是自动生成文件，不作为日常编辑入口。24 �
 
 1. 打开上面的内容文件，点击 GitHub 铅笔图标。
 2. 修改并点击 Commit changes 保存到 main。
-3. 查看 Actions。工作流会校验内容并构建；Pages 设置完成后自动发布。
+3. 查看 Actions。工作流会校验内容并构建；autoPublish 开启时发布；关闭时只检查构建。
 4. 原 chatgpt.site 网站与 GitHub Pages 分别发布，互不自动同步。
 
-如需本地运行：安装 Node.js 24，在本目录依次执行 npm ci 和 npm run dev。完整验证运行 npm run check:content 与 npm run build。
+如需本地运行：安装 Node.js 24，在本目录依次执行 npm ci 和 npm run dev。完整验证运行 npm run check:config、npm run check:content、npm run check:columns 与 npm run build。
 
 ## 逐区域自定义样式
 
@@ -82,7 +87,7 @@ content/archives.json 是自动生成文件，不作为日常编辑入口。24 �
 
 - cover 属性既用于页面缩略图，也用于选中档案的三维标签；未提供封面时使用原占位图形。
 - public/favicon.svg 是浏览器图标，可直接替换。
-- public/assets 下的模型可替换，但需保留网格/材质命名与原始尺寸基准。模型宽度固定为 5 个场景单位，避免破坏既有间距。
+- 默认使用程序生成的轻量模型。scene.json 中关闭 lightweightGeometry 可恢复原 GLB。public/assets 下的原模型可替换，但需保留网格/材质命名与原始尺寸基准。模型宽度固定为 5 个场景单位，避免破坏既有间距。
 - 三维材质和场景参数：content/scene.json；复杂着色器：src/theme-material.ts、src/appearance.ts。
 - 动画细节：src/scene.ts、src/motion.ts；拖拽惯性：src/archive-drag.ts；相机响应式构图：src/viewport-layout.ts。
 - public/theme.css 与 content/archives.json 均自动生成，请修改对应配置而非生成结果。
@@ -93,8 +98,19 @@ content/archives.json 是自动生成文件，不作为日常编辑入口。24 �
 npm ci
 npm run check:config
 npm run check:content
+npm run check:columns
 npm run build
 npm run preview
 ```
 
 自动部署读取 main 分支，需先在 GitHub Settings → Pages 将 Source 设为 GitHub Actions。GitHub Pages 与原 chatgpt.site 为独立网站，不自动互相更新。
+
+## 分类与发布的具体修改方式
+
+- 列数：编辑 site.json → groups 数组，或编辑器中添加 / 删除列。
+- 行数：每列的 visibleRows，只影响同时显示的重复卡片；一列可有 1 篇、3 篇或更多项目。
+- 归类：项目 Markdown 的 group 对应列的 id。重排 groups 不改变归类。
+- 分类盒：name、keywords、logo、color 在 site.json；尺寸与磨砂材质在 scene.json。
+- 发布：publishing.json → autoPublish。完整的手动发布、暂停更新和整站下线步骤见 README。
+- 隐藏整列：enabled: false，下一次发布时该列和其中项目详情页均被排除。若其他公开项目链接到被隐藏项目，构建会指出需修正的链接。
+- 原 chatgpt.site 网址不是这个工作流的目标；本次调整应用到 GitHub Pages。

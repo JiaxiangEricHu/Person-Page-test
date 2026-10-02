@@ -1,6 +1,8 @@
+import {createTopology} from '../shared/topology.mjs';
 import content from "../content/archives.json" with { type: "json" };
 
 export interface ArchiveRecord {
+  group: string;
   slug?: string;
   cover?: string;
   id: string;
@@ -20,18 +22,9 @@ export const records: ArchiveRecord[] = content.records;
 export const categories = ["全部档案", ...content.categories];
 export const archiveColumns = content.columns;
 
-export function columnFiles(lane: number) {
-  return records
-    .map((record, index) => ({ record, index }))
-    .filter(({ record }) => record.category === archiveColumns[lane])
-    .map(({ index }) => index);
-}
-export function fileLocation(index: number) {
-  const lane = archiveColumns.indexOf(records[index].category);
-  const row = 12 + columnFiles(lane).indexOf(index);
-  return { lane, row, slot: lane * 32 + row };
-}
-export function fileAtSlot(slot: number) {
-  const files = columnFiles(Math.max(0, Math.min(archiveColumns.length - 1, Math.floor(slot / 32))));
-  return files[Math.max(0, Math.min(files.length - 1, (slot % 32) - 12))];
-}
+// Shared topology is independent of Three.js and covered by navigation tests.
+export const archiveGroups = content.groups;
+const topology = createTopology(records, archiveGroups);
+export const {columnFiles,fileLocation,fileAtSlot} = topology;
+export const SLOT_STRIDE = topology.stride;
+export const cellFile = topology.fileAtCell;

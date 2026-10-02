@@ -10,113 +10,113 @@
       "default": 1.4142857142857144,
       "title": "档案高宽比",
       "description": "档案高宽比",
+      "type": "number",
       "minimum": 1.1,
-      "maximum": 1.7,
-      "type": "number"
+      "maximum": 1.7
     },
     "exposedFraction": {
       "default": 0.3333333333333333,
       "title": "档案露出高度比例",
       "description": "档案露出高度比例",
+      "type": "number",
       "minimum": 0.25,
-      "maximum": 0.45,
-      "type": "number"
+      "maximum": 0.45
     },
     "backgroundWave": {
       "default": 0.78,
       "title": "背景波浪幅度",
       "description": "背景波浪幅度",
+      "type": "number",
       "minimum": 0,
-      "maximum": 1.2,
-      "type": "number"
+      "maximum": 1.2
     },
     "selectionWave": {
       "default": 0.82,
       "title": "点击波浪幅度",
       "description": "点击波浪幅度",
+      "type": "number",
       "minimum": 0,
-      "maximum": 1.2,
-      "type": "number"
+      "maximum": 1.2
     },
     "idleWave": {
       "default": 1,
       "title": "待机起伏倍率",
       "description": "待机起伏倍率",
+      "type": "number",
       "minimum": 0,
-      "maximum": 2,
-      "type": "number"
+      "maximum": 2
     },
     "rowDamping": {
       "default": 3.7,
       "title": "纵向切换收敛速度",
       "description": "纵向切换收敛速度",
+      "type": "number",
       "minimum": 2,
-      "maximum": 12,
-      "type": "number"
+      "maximum": 12
     },
     "laneDamping": {
       "default": 6.2,
       "title": "横向切换收敛速度",
       "description": "横向切换收敛速度",
+      "type": "number",
       "minimum": 2,
-      "maximum": 12,
-      "type": "number"
+      "maximum": 12
     },
     "hoverLift": {
       "default": 0.28,
       "title": "悬停抬升高度",
       "description": "悬停抬升高度",
+      "type": "number",
       "minimum": 0,
-      "maximum": 0.5,
-      "type": "number"
+      "maximum": 0.5
     },
     "wheelRowThreshold": {
       "default": 100,
       "title": "滚轮纵向切换阈值",
       "description": "滚轮纵向切换阈值",
+      "type": "number",
       "minimum": 40,
-      "maximum": 300,
-      "type": "number"
+      "maximum": 300
     },
     "wheelLaneThreshold": {
       "default": 150,
       "title": "滚轮横向切换阈值",
       "description": "滚轮横向切换阈值",
+      "type": "number",
       "minimum": 40,
-      "maximum": 300,
-      "type": "number"
+      "maximum": 300
     },
     "wheelCooldown": {
       "default": 160,
       "title": "滚轮切换间隔 ms",
       "description": "滚轮切换间隔 ms",
+      "type": "number",
       "minimum": 80,
-      "maximum": 500,
-      "type": "number"
+      "maximum": 500
     },
     "pixelRatio": {
-      "default": 2,
+      "default": 1.5,
       "title": "渲染像素比上限",
       "description": "渲染像素比上限",
+      "type": "number",
       "minimum": 1,
-      "maximum": 2,
-      "type": "number"
+      "maximum": 2
     },
     "depthOfField": {
-      "default": 15,
+      "default": 0,
       "title": "景深强度",
       "description": "景深强度",
+      "type": "number",
       "minimum": 0,
-      "maximum": 30,
-      "type": "number"
+      "maximum": 30
     },
     "exposure": {
       "default": 0.98,
       "title": "场景曝光",
       "description": "场景曝光",
+      "type": "number",
       "minimum": 0.5,
-      "maximum": 1.5,
-      "type": "number"
+      "maximum": 1.5
     },
     "reduceMotion": {
       "default": false,
@@ -129,77 +129,137 @@
       "title": "三维地面颜色",
       "description": "三维地面颜色",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "fog": {
       "default": "#0b1014",
       "title": "雾颜色",
       "description": "雾颜色",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "polymer": {
       "default": "#626b70",
       "title": "档案外壳",
       "description": "档案外壳",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "edges": {
       "default": "#687277",
       "title": "档案边缘",
       "description": "档案边缘",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "diffuser": {
       "default": "#192226",
       "title": "档案内层",
       "description": "档案内层",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "fasteners": {
       "default": "#b1b9bb",
       "title": "档案紧固件",
       "description": "档案紧固件",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "inlay": {
       "default": "#c6a36b",
       "title": "档案索引",
       "description": "档案索引",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "printedLabel": {
       "default": "#303a3e",
       "title": "印刷底层",
       "description": "印刷底层",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "optics": {
       "default": "#939e9f",
       "title": "光学内层",
       "description": "光学内层",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "opticalEdges": {
       "default": "#bbc3bc",
       "title": "透明边缘",
       "description": "透明边缘",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
     },
     "ink": {
       "default": "#b6bdb8",
       "title": "墨色",
       "description": "墨色",
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "pattern": "^#[a-fA-F0-9]{6}$"
+    },
+    "lightweightGeometry": {
+      "default": true,
+      "title": "轻量模型",
+      "description": "使用程序生成的低面数卡片，免加载 GLB。",
+      "type": "boolean"
+    },
+    "showCategoryBoxes": {
+      "default": true,
+      "title": "显示分类盒",
+      "description": "在各列外缘显示磨砂盖分类盒。",
+      "type": "boolean"
+    },
+    "categoryBoxWidth": {
+      "default": 4.3,
+      "title": "分类盒宽度",
+      "description": "三维场景中的盒子宽度。",
+      "type": "number",
+      "minimum": 2,
+      "maximum": 4.8
+    },
+    "categoryBoxDepth": {
+      "default": 2.3,
+      "title": "分类盒深度",
+      "description": "增加深度可容纳更大关键词面板。",
+      "type": "number",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "categoryBoxHeight": {
+      "default": 0.48,
+      "title": "分类盒高度",
+      "description": "保持低矮，避免遮挡选中卡片。",
+      "type": "number",
+      "minimum": 0.2,
+      "maximum": 1
+    },
+    "categoryBoxGap": {
+      "default": 0.6,
+      "title": "分类盒与阵列间距",
+      "description": "盒子与最外侧一行的间距。",
+      "type": "number",
+      "minimum": 0.2,
+      "maximum": 6
+    },
+    "categoryLidOpacity": {
+      "default": 0.3,
+      "title": "磨砂盖不透明度",
+      "description": "低值更清晰，高值更朦胧。",
+      "type": "number",
+      "minimum": 0.1,
+      "maximum": 0.7
+    },
+    "categoryLidRoughness": {
+      "default": 0.7,
+      "title": "磨砂盖粗糙度",
+      "description": "调节高光和磨砂质感。",
+      "type": "number",
+      "minimum": 0.1,
+      "maximum": 1
     }
   },
   "required": [
@@ -228,7 +288,15 @@
     "printedLabel",
     "optics",
     "opticalEdges",
-    "ink"
+    "ink",
+    "lightweightGeometry",
+    "showCategoryBoxes",
+    "categoryBoxWidth",
+    "categoryBoxDepth",
+    "categoryBoxHeight",
+    "categoryBoxGap",
+    "categoryLidOpacity",
+    "categoryLidRoughness"
   ],
   "additionalProperties": false
 }

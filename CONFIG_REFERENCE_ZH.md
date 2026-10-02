@@ -1,6 +1,21 @@
 # 全部配置参数
 
-仅修改 content 下四个 JSON 的值。此表与 JSON Schema 记录可接受范围；公用主题与手机版的具体覆盖规则见编辑地图。
+常用配置位于 content 下五个 JSON 文件。浏览器 editor.html 提供表单，导出后提交到 GitHub 生效。
+
+## 分类列字段
+
+`site.groups` 为 1–12 个分类对象。每列可以有不同数量的项目，按各自项目总数循环。`visibleRows` 为同时渲染行数（1–48），与项目总数独立。空列和 enabled: false 的列不生成页面。固定 ID 与 Markdown 的 group 关联，调整名称或顺序不改变关联。
+
+| 字段 | 用途 |
+| --- | --- |
+| id | 唯一固定 ID，如 semiconductor |
+| name | 分类名称 |
+| keywords | 关键词数组，盒面展示前两行 |
+| logo | uploads/logo.png，可留空 |
+| color | 底座和标签强调色 |
+| visibleRows | 显示行数，1–48 的整数 |
+| enabled | 发布该列及其项目 |
+
 ## site.json
 
 | 字段 | 中文含义 | 默认值 | 范围/说明 |
@@ -9,10 +24,11 @@
 | `name` | 姓名 | `"Eric Hu"` | 姓名 |
 | `brand` | 左上角品牌 | `"ERIC"` | 左上角品牌 |
 | `description` | 个人简介 | `"关注微电子、可穿戴设备与生物传感，探索从器件到系统的研究与设计。"` | 个人简介 |
-| `groups` | 三个分组名称 | `["档案分组 01", "档案分组 02", "档案分组 03"]` | 每行一个，共三个，名称不能重复。 |
+| `groups` | 分类列 | `见 site.json` | 增删或排序列；用固定 ID 关联项目，每列独立设置显示行数、关键词与 Logo。 |
 | `topics` | 研究标签 | `["Microelectronics", "Wearables", "Biosensing"]` | 每行一个；可以清空。 |
 | `contactLabel` | 联系按钮文字 | `""` | 为空时不显示。 |
 | `contactUrl` | 联系按钮地址 | `""` | 支持 https:// 或 mailto:；为空时不显示。 |
+
 ## ui.json
 
 | 字段 | 中文含义 | 默认值 | 范围/说明 |
@@ -43,6 +59,7 @@
 | `nextGroup` | 下一组按钮辅助标签 | `"下一组"` | 下一组按钮辅助标签 |
 | `openSelected` | 卡片辅助标签 | `"展开当前档案"` | 卡片辅助标签 |
 | `selectPrefix` | 档案按钮辅助前缀 | `"选择"` | 档案按钮辅助前缀 |
+
 ## design.json
 
 | 字段 | 中文含义 | 默认值 | 范围/说明 |
@@ -83,6 +100,7 @@
 | `showHints` | 显示操作提示 | `true` | 显示操作提示 |
 | `showFooter` | 显示页脚 | `true` | 显示页脚 |
 | `showCollection` | 显示总数 | `true` | 显示总数 |
+
 ## scene.json
 
 | 字段 | 中文含义 | 默认值 | 范围/说明 |
@@ -98,8 +116,8 @@
 | `wheelRowThreshold` | 滚轮纵向切换阈值 | `100` | 滚轮纵向切换阈值；40–300 |
 | `wheelLaneThreshold` | 滚轮横向切换阈值 | `150` | 滚轮横向切换阈值；40–300 |
 | `wheelCooldown` | 滚轮切换间隔 ms | `160` | 滚轮切换间隔 ms；80–500 |
-| `pixelRatio` | 渲染像素比上限 | `2` | 渲染像素比上限；1–2 |
-| `depthOfField` | 景深强度 | `15` | 景深强度；0–30 |
+| `pixelRatio` | 渲染像素比上限 | `1.5` | 渲染像素比上限；1–2 |
+| `depthOfField` | 景深强度 | `0` | 景深强度；0–30 |
 | `exposure` | 场景曝光 | `0.98` | 场景曝光；0.5–1.5 |
 | `reduceMotion` | 减少动态效果 | `false` | 始终尊重操作系统减少动画设置；此开关可额外减少。 |
 | `floor` | 三维地面颜色 | `"#090c0f"` | 三维地面颜色 |
@@ -113,3 +131,17 @@
 | `optics` | 光学内层 | `"#939e9f"` | 光学内层 |
 | `opticalEdges` | 透明边缘 | `"#bbc3bc"` | 透明边缘 |
 | `ink` | 墨色 | `"#b6bdb8"` | 墨色 |
+| `lightweightGeometry` | 轻量模型 | `true` | 使用程序生成的低面数卡片，免加载 GLB。 |
+| `showCategoryBoxes` | 显示分类盒 | `true` | 在各列外缘显示磨砂盖分类盒。 |
+| `categoryBoxWidth` | 分类盒宽度 | `4.3` | 三维场景中的盒子宽度。；2–4.8 |
+| `categoryBoxDepth` | 分类盒深度 | `2.3` | 增加深度可容纳更大关键词面板。；1–4 |
+| `categoryBoxHeight` | 分类盒高度 | `0.48` | 保持低矮，避免遮挡选中卡片。；0.2–1 |
+| `categoryBoxGap` | 分类盒与阵列间距 | `0.6` | 盒子与最外侧一行的间距。；0.2–6 |
+| `categoryLidOpacity` | 磨砂盖不透明度 | `0.3` | 低值更清晰，高值更朦胧。；0.1–0.7 |
+| `categoryLidRoughness` | 磨砂盖粗糙度 | `0.7` | 调节高光和磨砂质感。；0.1–1 |
+
+## publishing.json
+
+| 字段 | 中文含义 | 默认值 | 范围/说明 |
+| --- | --- | --- | --- |
+| `autoPublish` | 提交后自动发布 | `true` | 关闭后只构建检查，保留当前线上版本。手动发布请在 GitHub Actions 运行工作流并勾选 publish。 |

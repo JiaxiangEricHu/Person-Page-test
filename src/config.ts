@@ -2,7 +2,8 @@ import site from '../content/site.json';
 import ui from '../content/ui.json';
 import design from '../content/design.json';
 import scene from '../content/scene.json';
-export {site,ui,design,scene};
+import publishing from '../content/publishing.json';
+export {site,ui,design,scene,publishing};
 export const escapeText=(value:unknown)=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 export function applyDesign(){
  for(const [key,value] of Object.entries(design)) {

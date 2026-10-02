@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "publishing",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "autoPublish": {
+      "default": true,
+      "title": "提交后自动发布",
+      "description": "关闭后只构建检查，保留当前线上版本。手动发布请在 GitHub Actions 运行工作流并勾选 publish。",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "autoPublish"
+  ],
+  "additionalProperties": false
+}

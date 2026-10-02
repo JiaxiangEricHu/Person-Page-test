@@ -1,21 +1,29 @@
 import fields from '../content/config-fields.json';
-import {site,ui,design,scene,escapeText as e} from './config';
+import {site,ui,design,scene,publishing,escapeText as e} from './config';
 import './editor.css';
+import {normalizeGroups, type ArchiveGroup} from '../shared/groups.mjs';
 type Field={title:string;description:string;type:string;minimum?:number;maximum?:number;default:unknown};
 const specs=fields as unknown as Record<string,Record<string,Field>>;
-const values:Record<string,Record<string,unknown>>=structuredClone({site,ui,design,scene});
-const names:Record<string,string>={site:'个人资料',ui:'界面文字',design:'颜色与布局',scene:'三维与动画'};
+const values:Record<string,Record<string,unknown>>=structuredClone({site,ui,design,scene,publishing});
+const names:Record<string,string>={site:'个人资料',ui:'界面文字',design:'颜色与布局',scene:'三维与动画',publishing:'发布控制'};
 let active='site';
 const root=document.querySelector<HTMLElement>('#editor')!;
 root.innerHTML=`<header><a href="./">← 返回网站</a><h1>网站配置编辑器</h1><p>调整参数 → 导出 JSON → 替换 GitHub 中 content 目录的同名文件。</p><p>这里编辑的是浏览器内的副本；不会直接保存到仓库或更新线上网站。离开前请导出。</p></header><nav>${Object.entries(names).map(([k,n])=>`<button data-tab="${k}">${n}</button>`).join('')}</nav><main><section class="toolbar"><label class="import">导入当前类别 JSON<input id="import" type="file" accept="application/json,.json"></label><button id="download">导出 site.json</button><a id="github" target="_blank" rel="noopener">在 GitHub 编辑</a></section><p id="status" role="status" aria-live="polite"></p><form id="fields"></form></main>`;
 const form=document.querySelector<HTMLFormElement>('#fields')!;
 const status=document.querySelector<HTMLElement>('#status')!;
+function groupsEditor(value:unknown){
+ const groups=value as ArchiveGroup[];
+ return `<section class="group-editor"><h2>分类列 · ${groups.length} 列</h2><p>每列的项目数量可不同；显示行数控制三维场景中的重复卡片。空列自动隐藏。修改 ID 或删除列之前，请先修改相关项目的 group。</p>${groups.map((g,i)=>`<fieldset class="group-card"><legend>第 ${i+1} 列 · ${e(g.name)}</legend><div class="group-actions"><button type="button" data-group-action="up" data-index="${i}" ${i===0?'disabled':''}>← 前移</button><button type="button" data-group-action="down" data-index="${i}" ${i===groups.length-1?'disabled':''}>后移 →</button><button type="button" data-group-action="remove" data-index="${i}" ${groups.length===1?'disabled':''}>删除列</button></div>${([
+ ['id','固定 ID','text',g.id],['name','显示名称','text',g.name],['logo','Logo 路径（uploads/图片.png）','text',g.logo],['color','底座与标签颜色','color',g.color],['visibleRows','同时显示行数（1–48）','number',g.visibleRows]
+ ] as const).map(([key,label,type,v])=>`<label>${label}<input data-group="${i}" data-prop="${key}" type="${type}" value="${e(v)}" ${type==='number'?'min="1" max="48" step="1"':''}></label>`).join('')}<label>关键词（每行一个；盒面显示前两行）<textarea rows="2" data-group="${i}" data-prop="keywords">${e(g.keywords.join('\n'))}</textarea></label><label class="enabled"><input type="checkbox" data-group="${i}" data-prop="enabled" ${g.enabled?'checked':''}> 发布这一列（关闭后该列项目和详情页均不生成）</label></fieldset>`).join('')}<button type="button" data-group-action="add" ${groups.length>=12?'disabled':''}>＋ 添加一列</button></section>`;
+}
 function render(){
  document.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===active)));
  document.querySelector('#download')!.textContent=`导出 ${active}.json`;
  (document.querySelector('#github') as HTMLAnchorElement).href=`https://github.com/JiaxiangEricHu/Person-Page-test/edit/main/content/${active}.json`;
  form.innerHTML=Object.entries(specs[active]).map(([k,f])=>{
   const v=values[active][k],id=`field-${k}`;
+  if(f.type==='groups')return groupsEditor(v);
   let input;
   if(f.type==='boolean')input=`<input id="${id}" data-key="${k}" type="checkbox" ${v?'checked':''}>`;
   else if(f.type==='lines'||(f.type==='string'&&String(v).length>45))input=`<textarea id="${id}" data-key="${k}" rows="3">${e(f.type==='lines'?(v as string[]).join('\n'):v)}</textarea>`;
@@ -25,17 +33,35 @@ function render(){
 }
 form.addEventListener('submit',event=>event.preventDefault());
 form.addEventListener('input',event=>{
- const input=event.target as HTMLInputElement|HTMLTextAreaElement,k=input.dataset.key;if(!k)return;
+ const input=event.target as HTMLInputElement|HTMLTextAreaElement;
+ if(input.dataset.group!==undefined){
+  const g=(values.site.groups as ArchiveGroup[])[Number(input.dataset.group)],k=input.dataset.prop!;
+  Object.assign(g,{[k]:k==='enabled'?(input as HTMLInputElement).checked:k==='visibleRows'?Number(input.value):k==='keywords'?input.value.split('\n').map(x=>x.trim()).filter(Boolean):input.value});
+  status.textContent='分类已修改，导出 site.json 后提交到 GitHub。';return;
+ }
+ const k=input.dataset.key;if(!k)return;
  const f=specs[active][k];
  values[active][k]=f.type==='boolean'?(input as HTMLInputElement).checked:f.type==='number'?Number(input.value):f.type==='lines'?input.value.split('\n').map(s=>s.trim()).filter(Boolean):input.value;
  status.textContent='已修改浏览器内副本，尚未保存到 GitHub。';
 });
-root.addEventListener('click',event=>{const t=(event.target as HTMLElement).closest<HTMLElement>('[data-tab]');if(t){active=t.dataset.tab!;render();}});
+root.addEventListener('click',event=>{
+ const action=(event.target as HTMLElement).closest<HTMLElement>('[data-group-action]');
+ if(action){
+  const groups=values.site.groups as ArchiveGroup[],i=Number(action.dataset.index),a=action.dataset.groupAction;
+  if(a==='add'&&groups.length<12){let n=1;while(groups.some(g=>g.id===`group-${String(n).padStart(2,'0')}`))n++;groups.push({id:`group-${String(n).padStart(2,'0')}`,name:'新分类',keywords:[],logo:'',color:'#c7a66e',visibleRows:8,enabled:true});}
+  if(a==='remove'&&groups.length>1)groups.splice(i,1);
+  if(a==='up'&&i>0)[groups[i],groups[i-1]]=[groups[i-1],groups[i]];
+  if(a==='down'&&i<groups.length-1)[groups[i],groups[i+1]]=[groups[i+1],groups[i]];
+  // Preserve partially typed input while sorting; validate only when exporting.
+  try{render();}catch(error){status.textContent=String(error);}return;
+ }
+const t=(event.target as HTMLElement).closest<HTMLElement>('[data-tab]');if(t){active=t.dataset.tab!;render();}});
 function validate(data:Record<string,unknown>){
  for(const key of Object.keys(data))if(key!=='$schema'&&!specs[active][key])throw Error(`未知字段 ${key}`);
  for(const [k,f] of Object.entries(specs[active])){
   const v=data[k];
-  if(f.type==='lines'){if(!Array.isArray(v)||v.some(x=>typeof x!=='string'))throw Error(`${f.title}需要文本数组`);}
+  if(f.type==='groups')normalizeGroups(v);
+  else if(f.type==='lines'){if(!Array.isArray(v)||v.some(x=>typeof x!=='string'))throw Error(`${f.title}需要文本数组`);}
   else if(typeof v!==(['color','url'].includes(f.type)?'string':f.type))throw Error(`${f.title}类型不正确`);
   if(f.type==='color'&&!/^#[a-f0-9]{6}$/i.test(String(v)))throw Error(`${f.title}需要 #RRGGBB`);
   if(f.type==='number'&&(!Number.isFinite(v)||Number(v)<f.minimum!||Number(v)>f.maximum!))throw Error(`${f.title}超出范围`);
@@ -43,8 +69,7 @@ function validate(data:Record<string,unknown>){
   if(k==='fontFamily'&&/[{};<>]/.test(String(v)))throw Error('字体只填写字体族名称');
  }
  if(active==='site'){
-  const groups=data.groups as string[];
-  if(groups.length!==3||new Set(groups).size!==3||groups.some(x=>!x.trim()))throw Error('需要三个不同的非空分组');
+  data.groups=normalizeGroups(data.groups);
   for(const k of ['title','name','brand','description'])if(!String(data[k]).trim())throw Error(`${k}不能为空`);
  }
 }

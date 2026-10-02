@@ -1,7 +1,7 @@
 ---
 title: "研究档案 05"
 subtitle: "RESEARCH FILE 05"
-group: 1
+group: group-01
 order: 5
 date: "待补充"
 summary: "此处预留项目介绍、研究图片与相关资料。"

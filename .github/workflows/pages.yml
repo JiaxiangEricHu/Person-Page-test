@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish this version (unchecked = validate and build only)'
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -17,6 +22,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      publish: ${{ steps.publication.outputs.publish }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -26,14 +33,22 @@ jobs:
       - run: npm ci
       - run: npm run check:config
       - run: npm run check:content
+      - run: npm run check:columns
       - run: npm run build
+      - name: Decide whether to publish
+        id: publication
+        env:
+          EVENT: ${{ github.event_name }}
+          MANUAL_PUBLISH: ${{ inputs.publish }}
+          BRANCH: ${{ github.ref }}
+        run: node scripts/publication.mjs >> "$GITHUB_OUTPUT"
       - uses: actions/upload-pages-artifact@v4
-        if: github.event_name != 'pull_request'
+        if: steps.publication.outputs.publish == 'true'
         with:
           path: dist
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: needs.build.outputs.publish == 'true'
     needs: build
     runs-on: ubuntu-latest
     permissions:

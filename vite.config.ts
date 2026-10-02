@@ -1,13 +1,14 @@
+import sceneSettings from './content/scene.json';
 import {prepareConfig} from './scripts/config.mjs';
 import {resolve} from 'node:path';
 import { defineConfig } from "vite";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, rmSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { generateCatalog, readProjects, renderMarkdown, projectPage, projectIndex, escapeHtml } from "./scripts/content.mjs";
 
 // Keep Blender's stable source/export paths, while production URLs identify
 // exact bytes and can be cached without revalidation across deployments.
-const models = ["archive-cassette", "archive-assembly"].map(name => {
+const models = (sceneSettings.lightweightGeometry ? [] : ["archive-cassette", "archive-assembly"]).map(name => {
   const source = readFileSync(`public/assets/${name}.glb`);
   const hash = createHash("sha256").update(source).digest("hex").slice(0,16);
   return { key:`assets/${name}.glb`, fileName:`assets/${name}.${hash}.glb`, source };
@@ -43,7 +44,7 @@ export default defineConfig(({ mode, command }) => ({
     configureServer(server) {
       server.watcher.add("content");
       server.watcher.on("all", async (_event, file) => {
-        if (!file.replaceAll("\\", "/").match(/content\/((site|ui|design|scene)\.json|projects\/[^/]+\.md)$/)) return;
+        if (!file.replaceAll("\\", "/").match(/content\/((site|ui|design|scene|publishing)\.json|projects\/[^/]+\.md)$/)) return;
         try { await prepareConfig(); await generateCatalog(); server.ws.send({type:"full-reload"}); }
         catch (error) { server.config.logger.error(String(error)); }
       });
@@ -68,6 +69,10 @@ export default defineConfig(({ mode, command }) => ({
     },
   }, {
     name: "versioned-model-assets", apply: "build",
+    writeBundle(options) {
+      // Keep originals in source for opt-in legacy rendering; omit unused downloads.
+      if(sceneSettings.lightweightGeometry) for(const name of ['archive-cassette','archive-assembly']) rmSync(resolve(options.dir || 'dist',`assets/${name}.glb`),{force:true});
+    },
     buildStart() { for (const model of models) this.emitFile({type:"asset",fileName:model.fileName,source:model.source}); },
   }, ...(mode === "wallpaper" ? [{
     name: "wallpaper-host",

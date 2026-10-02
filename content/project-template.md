@@ -1,7 +1,7 @@
 ---
 title: "项目名称"
 subtitle: "PROJECT TITLE"
-group: 1
+group: group-01
 order: 10
 date: "2026"
 summary: "用一两句话介绍这个项目解决的问题，以及你的工作。"

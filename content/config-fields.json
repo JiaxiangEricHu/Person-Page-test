@@ -26,13 +26,46 @@
     },
     "groups": {
       "default": [
-        "档案分组 01",
-        "档案分组 02",
-        "档案分组 03"
+        {
+          "id": "group-01",
+          "name": "半导体",
+          "keywords": [
+            "SEMICONDUCTORS",
+            "器件 · 微电子"
+          ],
+          "logo": "",
+          "color": "#c7a66e",
+          "visibleRows": 8,
+          "enabled": true
+        },
+        {
+          "id": "group-02",
+          "name": "PCB",
+          "keywords": [
+            "PCB DESIGN",
+            "电路 · 系统"
+          ],
+          "logo": "",
+          "color": "#87b6aa",
+          "visibleRows": 8,
+          "enabled": true
+        },
+        {
+          "id": "group-03",
+          "name": "研究与设计",
+          "keywords": [
+            "RESEARCH",
+            "原型 · 探索"
+          ],
+          "logo": "",
+          "color": "#a0a9c7",
+          "visibleRows": 8,
+          "enabled": true
+        }
       ],
-      "title": "三个分组名称",
-      "description": "每行一个，共三个，名称不能重复。",
-      "type": "lines"
+      "title": "分类列",
+      "description": "增删或排序列；用固定 ID 关联项目，每列独立设置显示行数、关键词与 Logo。",
+      "type": "groups"
     },
     "topics": {
       "default": [
@@ -553,7 +586,7 @@
       "maximum": 500
     },
     "pixelRatio": {
-      "default": 2,
+      "default": 1.5,
       "title": "渲染像素比上限",
       "description": "渲染像素比上限",
       "type": "number",
@@ -561,7 +594,7 @@
       "maximum": 2
     },
     "depthOfField": {
-      "default": 15,
+      "default": 0,
       "title": "景深强度",
       "description": "景深强度",
       "type": "number",
@@ -647,6 +680,74 @@
       "title": "墨色",
       "description": "墨色",
       "type": "color"
+    },
+    "lightweightGeometry": {
+      "default": true,
+      "title": "轻量模型",
+      "description": "使用程序生成的低面数卡片，免加载 GLB。",
+      "type": "boolean"
+    },
+    "showCategoryBoxes": {
+      "default": true,
+      "title": "显示分类盒",
+      "description": "在各列外缘显示磨砂盖分类盒。",
+      "type": "boolean"
+    },
+    "categoryBoxWidth": {
+      "default": 4.3,
+      "title": "分类盒宽度",
+      "description": "三维场景中的盒子宽度。",
+      "type": "number",
+      "minimum": 2,
+      "maximum": 4.8
+    },
+    "categoryBoxDepth": {
+      "default": 2.3,
+      "title": "分类盒深度",
+      "description": "增加深度可容纳更大关键词面板。",
+      "type": "number",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "categoryBoxHeight": {
+      "default": 0.48,
+      "title": "分类盒高度",
+      "description": "保持低矮，避免遮挡选中卡片。",
+      "type": "number",
+      "minimum": 0.2,
+      "maximum": 1
+    },
+    "categoryBoxGap": {
+      "default": 0.6,
+      "title": "分类盒与阵列间距",
+      "description": "盒子与最外侧一行的间距。",
+      "type": "number",
+      "minimum": 0.2,
+      "maximum": 6
+    },
+    "categoryLidOpacity": {
+      "default": 0.3,
+      "title": "磨砂盖不透明度",
+      "description": "低值更清晰，高值更朦胧。",
+      "type": "number",
+      "minimum": 0.1,
+      "maximum": 0.7
+    },
+    "categoryLidRoughness": {
+      "default": 0.7,
+      "title": "磨砂盖粗糙度",
+      "description": "调节高光和磨砂质感。",
+      "type": "number",
+      "minimum": 0.1,
+      "maximum": 1
+    }
+  },
+  "publishing": {
+    "autoPublish": {
+      "default": true,
+      "title": "提交后自动发布",
+      "description": "关闭后只构建检查，保留当前线上版本。手动发布请在 GitHub Actions 运行工作流并勾选 publish。",
+      "type": "boolean"
     }
   }
 }

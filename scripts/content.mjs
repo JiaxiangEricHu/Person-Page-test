@@ -1,3 +1,4 @@
+import {normalizeGroups,groupFor} from '../shared/groups.mjs';
 import defaultUi from '../content/ui.json' with {type:'json'};
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -15,9 +16,8 @@ export async function readProjects(directory = root) {
   for (const field of ['title','name','brand','description']) {
     if (typeof site[field] !== 'string' || !site[field].trim()) throw Error(`site.json: ${field} 不能为空。`);
   }
-  if (!Array.isArray(site.groups) || site.groups.length !== 3 || site.groups.some(g => typeof g !== 'string' || !g.trim()) || new Set(site.groups).size !== 3) {
-    throw Error('site.json: groups 必须是三个不同的非空分组名称。');
-  }
+  site.groups = normalizeGroups(site.groups);
+  for (const g of site.groups) if (g.logo) await localUpload(g.logo,directory,g.id);
   site.ui = JSON.parse(await fs.readFile(path.join(directory,'content/ui.json'),'utf8').catch(()=>JSON.stringify(defaultUi)));
   const folder = path.join(directory, 'content/projects');
   const files = (await fs.readdir(folder)).filter(file => file.endsWith('.md')).sort();
@@ -33,20 +33,21 @@ export async function readProjects(directory = root) {
     if (meta.draft !== undefined && typeof meta.draft !== 'boolean') throw Error(`${file}: draft 请填写 true 或 false。`);
     if (meta.draft === true) continue;
     if (typeof meta.title !== 'string' || !meta.title.trim()) throw Error(`${file}: title 不能为空。`);
-    if (!Number.isInteger(meta.group) || meta.group < 1 || meta.group > 3) throw Error(`${file}: group 必须是 1、2 或 3。`);
+    const group=groupFor(site.groups,meta.group);
+    if (!group) throw Error(`${file}: group 需要匹配 site.json 中的分组 ID。`);
+    if (!group.enabled) continue;
     if (meta.order !== undefined && !Number.isFinite(meta.order)) throw Error(`${file}: order 必须是数字。`);
     for (const field of ['subtitle','summary','date','cover']) if (meta[field] !== undefined && typeof meta[field] !== 'string') throw Error(`${file}: ${field} 必须是文本，日期请加引号。`);
     const cover = meta.cover?.trim() || '';
     if (cover) await localUpload(cover, directory, file, true);
-    projects.push({slug,title:meta.title.trim(),en:meta.subtitle || '',group:meta.group,order:meta.order ?? 100,
+    projects.push({slug,title:meta.title.trim(),en:meta.subtitle || '',group:group.id,order:meta.order ?? 100,
       date:meta.date || '',abstract:meta.summary || '',cover,markdown:match[2].trim()});
   }
-  projects.sort((a,b)=>a.group-b.group || a.order-b.order || a.slug.localeCompare(b.slug));
-  for(let group=1;group<=3;group++) if(projects.filter(p=>p.group===group).length>20) throw Error(`分组 ${group} 超过 20 篇，请分配到其他分组。`);
-  const activeGroups = [1,2,3].filter(group=>projects.some(p=>p.group===group));
-  const columns = activeGroups.map(group=>site.groups[group-1]);
-  const records = projects.map((p,i)=>({...p,id:`X-${String(i+1).padStart(3,'0')}`,category:site.groups[p.group-1],department:'PERSONAL RESEARCH',lead:site.name,clearance:'PUBLIC',findings:[],source:''}));
-  return {site,projects,content:{categories:columns,columns,records}};
+  projects.sort((a,b)=>site.groups.findIndex(g=>g.id===a.group)-site.groups.findIndex(g=>g.id===b.group) || a.order-b.order || a.slug.localeCompare(b.slug));
+  const groups = site.groups.filter(g=>g.enabled && projects.some(p=>p.group===g.id));
+  const columns = groups.map(g=>g.name);
+  const records = projects.map((p,i)=>({...p,id:`X-${String(i+1).padStart(3,'0')}`,category:groupFor(site.groups,p.group).name,department:'PERSONAL RESEARCH',lead:site.name,clearance:'PUBLIC',findings:[],source:''}));
+  return {site,projects,content:{categories:columns,columns,groups,records}};
 }
 
 async function localUpload(value,directory,file,image=false) {
@@ -83,12 +84,12 @@ export async function renderMarkdown(project,projects,directory=root) {
 
 export function projectPage(project,html,site) {
   const e=escapeHtml, ui=site.ui ?? defaultUi;
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${e(project.abstract)}"><title>${e(project.title)} · ${e(site.title)}</title><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../../project.css"><link rel="stylesheet" href="../../theme.css"><link rel="stylesheet" href="../../custom.css"></head><body><header class="project-header"><a href="../../?archive=${project.slug}">${e(ui.back)}</a><a href="../">${e(ui.allProjects)}</a></header><main class="project-article"><p class="project-meta">${e(site.groups[project.group-1])}${project.date?' · '+e(project.date):''}</p><h1>${e(project.title)}</h1>${project.en?`<p class="project-subtitle">${e(project.en)}</p>`:''}${project.abstract?`<p class="project-summary">${e(project.abstract)}</p>`:''}${project.cover?`<img class="project-cover" src="../../${e(project.cover)}" alt="${e(project.title)}">`:''}<article>${html}</article><footer><a href="../../?archive=${project.slug}">${e(ui.back)}</a><span>${e(site.name)}</span></footer></main></body></html>`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${e(project.abstract)}"><title>${e(project.title)} · ${e(site.title)}</title><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../../project.css"><link rel="stylesheet" href="../../theme.css"><link rel="stylesheet" href="../../custom.css"></head><body><header class="project-header"><a href="../../?archive=${project.slug}">${e(ui.back)}</a><a href="../">${e(ui.allProjects)}</a></header><main class="project-article"><p class="project-meta">${e(groupFor(normalizeGroups(site.groups),project.group)?.name || '')}${project.date?' · '+e(project.date):''}</p><h1>${e(project.title)}</h1>${project.en?`<p class="project-subtitle">${e(project.en)}</p>`:''}${project.abstract?`<p class="project-summary">${e(project.abstract)}</p>`:''}${project.cover?`<img class="project-cover" src="../../${e(project.cover)}" alt="${e(project.title)}">`:''}<article>${html}</article><footer><a href="../../?archive=${project.slug}">${e(ui.back)}</a><span>${e(site.name)}</span></footer></main></body></html>`;
 }
 
 export function projectIndex(projects,site) {
   const e=escapeHtml, ui=site.ui ?? defaultUi;
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(ui.allProjects)} · ${e(site.title)}</title><link rel="stylesheet" href="../project.css"><link rel="stylesheet" href="../theme.css"><link rel="stylesheet" href="../custom.css"><link rel="icon" href="../favicon.svg"></head><body><header class="project-header"><a href="../">${e(ui.back)}</a><span>${e(site.name)}</span></header><main class="project-article"><h1>${e(ui.allProjects)}</h1><div class="project-list">${projects.length?projects.map(p=>`<a href="./${p.slug}/"><span>${e(site.groups[p.group-1])}</span><h2>${e(p.title)}</h2><p>${e(p.abstract)}</p></a>`).join(''):`<p>${e(ui.emptyTitle)}</p>`}</div></main></body></html>`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(ui.allProjects)} · ${e(site.title)}</title><link rel="stylesheet" href="../project.css"><link rel="stylesheet" href="../theme.css"><link rel="stylesheet" href="../custom.css"><link rel="icon" href="../favicon.svg"></head><body><header class="project-header"><a href="../">${e(ui.back)}</a><span>${e(site.name)}</span></header><main class="project-article"><h1>${e(ui.allProjects)}</h1><div class="project-list">${projects.length?projects.map(p=>`<a href="./${p.slug}/"><span>${e(groupFor(normalizeGroups(site.groups),p.group)?.name || '')}</span><h2>${e(p.title)}</h2><p>${e(p.abstract)}</p></a>`).join(''):`<p>${e(ui.emptyTitle)}</p>`}</div></main></body></html>`;
 }
 
 export async function generateCatalog(directory=root) {

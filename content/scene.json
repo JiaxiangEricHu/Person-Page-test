@@ -11,8 +11,8 @@
   "wheelRowThreshold": 100,
   "wheelLaneThreshold": 150,
   "wheelCooldown": 160,
-  "pixelRatio": 2,
-  "depthOfField": 15,
+  "pixelRatio": 1.5,
+  "depthOfField": 0,
   "exposure": 0.98,
   "reduceMotion": false,
   "floor": "#090c0f",
@@ -25,5 +25,13 @@
   "printedLabel": "#303a3e",
   "optics": "#939e9f",
   "opticalEdges": "#bbc3bc",
-  "ink": "#b6bdb8"
+  "ink": "#b6bdb8",
+  "lightweightGeometry": true,
+  "showCategoryBoxes": true,
+  "categoryBoxWidth": 4.3,
+  "categoryBoxDepth": 2.3,
+  "categoryBoxHeight": 0.48,
+  "categoryBoxGap": 0.6,
+  "categoryLidOpacity": 0.3,
+  "categoryLidRoughness": 0.7
 }
