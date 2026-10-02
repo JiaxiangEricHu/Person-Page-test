@@ -882,7 +882,7 @@ export class ArchiveScene {
     );
     this.raycaster.setFromCamera(this.cursor, this.camera);
     const hit = this.raycaster.intersectObjects(
-      [...this.instances.filter(instance => instance.visible), this.model, ...this.outgoing.map((o) => o.group)],
+      [...this.instances, this.model, ...this.outgoing.map((o) => o.group)].filter(object => object.visible),
       true,
     )[0];
     if (!hit) return null;
@@ -1676,6 +1676,14 @@ export class ArchiveScene {
       : this.visibility.update(this.camera, fog.far, trackX, trackZ, this.extraCoverage, visibleCenterRow);
     this.recesses.update(trackX, trackZ);
     this.categoryBoxes.update(trackX, detail, this.presence > .99 && !cinematic);
+    // Unlike the instance pool, selected and returning cards can temporarily
+    // lag far behind a fast gesture. Do not draw or pick them beyond a box wall.
+    const confineArchive = (group: THREE.Group, lane: number) => {
+      const visible = this.categoryBoxes.containsArchive(lane, group.position.z);
+      if (group.visible !== visible) { group.visible = visible; this.renderState.invalidate(); }
+    };
+    confineArchive(this.model, selectedLane);
+    for (const old of this.outgoing) confineArchive(old.group, old.cell.lane);
     const hidden = new Set(this.outgoing.map(o => cellKey(o.cell)));
     hidden.add(cellKey(this.selectedCell));
     this.drawnCells = [];

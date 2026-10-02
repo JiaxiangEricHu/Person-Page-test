@@ -34,6 +34,6 @@
   "categoryBoxGap": 0.6,
   "categoryBoxElevation": 3.2,
   "categoryBoxSideExtension": 0.4,
-  "categoryBoxRearExtension": 0.8,
+  "categoryBoxRearExtension": 64,
   "categoryBoxLogoScale": 0.72
 }

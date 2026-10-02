@@ -26,6 +26,7 @@ function containerGeometry(width:number,depth:number,front:number){
 /** Clear top labels and a floor-supported container; no glass or transmission pass. */
 export class CategoryBoxes {
   readonly root = new THREE.Group();
+  private readonly bounds:{front:number;back:number}[]=[];
   private readonly width=Math.min(COLUMN_SPACING-.06,settings.categoryBoxWidth+2*settings.categoryBoxSideExtension);
   private disposed=false;
   constructor(scene:THREE.Scene,invalidate:()=>void){
@@ -46,6 +47,8 @@ export class CategoryBoxes {
       const base=new THREE.Mesh(baseGeometry,new THREE.MeshStandardMaterial({color,roughness:.65,metalness:.12}));
       base.name='category-top-rim';base.position.y=h/2;base.receiveShadow=true;box.add(base);
       const depth=2*Math.ceil(category.visibleRows/2)*ROW_SPACING+settings.categoryBoxGap+d+settings.categoryBoxRearExtension;
+      const front=box.position.z+d/2;
+      this.bounds.push({front,back:front-depth});
       if(!shells.has(depth))shells.set(depth,containerGeometry(w,depth,d/2));
       const shell=new THREE.Mesh(shells.get(depth)!,new THREE.MeshStandardMaterial({color:color.clone().multiplyScalar(.32),roughness:.72,metalness:.1}));
       shell.name='category-container';shell.receiveShadow=true;box.add(shell);
@@ -96,6 +99,13 @@ export class CategoryBoxes {
     // Horizontal browsing pans the entire array; individual boxes never animate.
     this.root.position.x=-trackX;
     this.root.visible=visible&&settings.showCategoryBoxes&&detail<.08;
+  }
+  containsArchive(lane:number,z:number){
+    if(!this.root.visible)return true;
+    const bounds=this.bounds[lane];
+    // Include the card's thickness and wave lean. Selection/return animations
+    // can outlive the row window during a fast fling; keep them inside the shell.
+    return !bounds||(z>=bounds.back+.6&&z<=bounds.front-.6);
   }
   dispose(){this.disposed=true;}
 }

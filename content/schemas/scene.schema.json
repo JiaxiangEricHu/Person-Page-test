@@ -262,12 +262,12 @@
       "maximum": 1
     },
     "categoryBoxRearExtension": {
-      "default": 0.8,
-      "title": "侧板向列后方延展",
-      "description": "侧板覆盖该列显示行后，继续向后延伸的长度。",
+      "default": 64,
+      "title": "盒身向后延展",
+      "description": "两侧和底板向后延伸的长度；默认 64 延伸至画面外，避免快速滑动时档案越过可见后沿。只改变长度，不增加模型面数。",
       "type": "number",
       "minimum": 0,
-      "maximum": 6
+      "maximum": 160
     },
     "categoryBoxLogoScale": {
       "default": 0.72,
