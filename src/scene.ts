@@ -184,7 +184,7 @@ export class ArchiveScene {
   private renderedFrames = 0;
   private reusedFrames = 0;
   private visibility = new ArchiveVisibility();
-  private recesses: ArchiveRecesses;
+  private recesses?: ArchiveRecesses;
   private categoryBoxes: CategoryBoxes;
   private lateralSway = { value: 0, velocity: 0 };
   private previousTrackX = 0;
@@ -318,7 +318,7 @@ export class ArchiveScene {
     floor.position.y = -4.63;
     floor.receiveShadow = true;
     this.scene.add(floor);
-    this.recesses = new ArchiveRecesses(this.scene, floor.material);
+    if(settings.showEdgeRecesses)this.recesses = new ArchiveRecesses(this.scene, floor.material);
     this.categoryBoxes = new CategoryBoxes(this.scene, () => this.renderState.invalidate());
     this.camera.position.set(-62.26, 35.98, 43.28);
     this.cameraAim.set(-0.5, 1.1, 0.4);
@@ -1410,6 +1410,7 @@ export class ArchiveScene {
       ? cinematic.zoom
       : THREE.MathUtils.lerp(this.detail, cameraTarget, blend);
     const detail = this.detail;
+    const backgroundDrop = cinematic ? 0 : settings.detailArrayDrop * ease(detail);
     this.decryption.update(dt, detail > .78 && this.lift.value > INSPECTION_LIFT * .8, this.reduced,
       cinematic ? shot + 5 : undefined);
     this.appearance.apply(this.model, ease(this.lift.value / 0.4));
@@ -1432,7 +1433,7 @@ export class ArchiveScene {
       } else damp(o.lift, 0, this.reduced ? 35 : 4.5, dt);
       o.group.position.set(
         p.x - trackX,
-        baseY + o.lift.value + hoverLift(o.cell) - this.presentationDrop(o.cell),
+        baseY + o.lift.value + hoverLift(o.cell) - this.presentationDrop(o.cell) - backgroundDrop,
         p.z + entryZ + this.rail.value,
       );
       const quality = ease(o.lift.value / 0.4);
@@ -1673,13 +1674,13 @@ export class ArchiveScene {
     // including while dragging and after an infinite-scroll coordinate rebase.
     const visibleCenterRow = ARCHIVE_CENTER_ROW - trackZ / ROW_SPACING;
     this.cells = fixed ? Array.from({ length: LOOP_COLUMNS * LOOP_ROWS }, (_, i) => poolCell(i)).filter(cell => { const w = rowWindow(ARCHIVE_CENTER_ROW, archiveGroups[cell.lane].visibleRows); return cell.row >= w.start && cell.row <= w.end; })
-      : this.visibility.update(this.camera, fog.far, trackX, trackZ, this.extraCoverage, visibleCenterRow);
-    this.recesses.update(trackX, trackZ);
-    this.categoryBoxes.update(trackX, detail, this.presence > .99 && !cinematic);
+      : this.visibility.update(this.camera, fog.far, trackX, trackZ, this.extraCoverage, visibleCenterRow, -backgroundDrop);
+    this.recesses?.update(trackX, trackZ);
+    this.categoryBoxes.update(trackX, backgroundDrop, this.presence > .99 && !cinematic);
     // Unlike the instance pool, selected and returning cards can temporarily
     // lag far behind a fast gesture. Do not draw or pick them beyond a box wall.
     const confineArchive = (group: THREE.Group, lane: number) => {
-      const visible = this.categoryBoxes.containsArchive(lane, group.position.z);
+      const visible = (group === this.model && detail > .01) || this.categoryBoxes.containsArchive(lane, group.position.z);
       if (group.visible !== visible) { group.visible = visible; this.renderState.invalidate(); }
     };
     confineArchive(this.model, selectedLane);
@@ -1694,7 +1695,7 @@ export class ArchiveScene {
       const { row, lane } = cell;
       if (hidden.has(cellKey(cell))) continue;
       const x = (lane - 2) * COLUMN_SPACING - trackX;
-      const y = -4.6 + field(row, lane) + hoverLift(cell) - this.presentationDrop(cell);
+      const y = -4.6 + field(row, lane) + hoverLift(cell) - this.presentationDrop(cell) - backgroundDrop;
       const z = (row - 15.5) * ROW_SPACING + entryZ + this.rail.value;
       if (!fixed && !this.visibility.intersects(x, y, z)) continue;
       const i = this.drawnCells.length;
@@ -1723,7 +1724,7 @@ export class ArchiveScene {
       row = selectedRow;
     for (let r = row - 5; r <= row + 5; r++) {
       if (r !== row)
-        neighborTop = Math.max(neighborTop, -4.6 + field(r, lane) + CARD_TOP + 0.06);
+        neighborTop = Math.max(neighborTop, -4.6 + field(r, lane) + CARD_TOP + 0.06 - backgroundDrop);
     }
     for (const o of this.outgoing) {
       if (o.cell.lane === lane && Math.abs(o.cell.row - row) <= 5) {

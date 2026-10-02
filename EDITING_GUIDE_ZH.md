@@ -8,7 +8,7 @@
 - 编辑器是导入/导出工具；导出后还需替换仓库中的文件并提交。它不直接更改线上网站。
 - JSON 编辑器会读取 content/schemas 的字段说明；每个配置字段的中文含义、范围、默认值见 CONFIG_REFERENCE_ZH.md。
 - 颜色使用 #RRGGBB；长度单位在参数名称或说明中标明。配置错误会阻止构建并显示字段名。
-- 分类列支持 1–12 列，每列同时渲染 1–48 行。项目数量独立，按各自总数循环。修改分组数量无需改三维源码。
+- 分类列支持 1–12 列，每列基础行数为 1–48；开启自动补满后，会继续循环填充盒内后方可见区域。项目数量独立，按各自总数循环。修改分组数量无需改三维源码。
 - 数据展示、样式、几何与交互均保留源文件；“易修改”不代表任意重新设计都只需配置。
 
 ## 内容修改
@@ -31,7 +31,8 @@
 | 个人档案样式 | [src/personal.css](src/personal.css) |
 | 小屏幕布局 | [src/responsive.css](src/responsive.css) |
 | 档案尺寸 | [src/archive-dimensions.ts](src/archive-dimensions.ts) |
-| 固定分类盒、清晰顶面与侧板 Logo | [src/category-boxes.ts](src/category-boxes.ts) |
+| 分类盒、清晰顶面、侧板 Logo 与平滑退场 | [src/category-boxes.ts](src/category-boxes.ts) |
+| 盒内循环补满与视野裁剪 | [src/category-layout.ts](src/category-layout.ts)、[src/archive-visibility.ts](src/archive-visibility.ts) |
 | 轻量档案几何 | [src/lightweight-archive.ts](src/lightweight-archive.ts) |
 | 独立循环与索引 | [shared/topology.mjs](shared/topology.mjs)、[src/archive-loop.ts](src/archive-loop.ts) |
 | 分类校验 | [shared/groups.mjs](shared/groups.mjs) |
@@ -108,7 +109,7 @@ npm run preview
 ## 分类与发布的具体修改方式
 
 - 列数：编辑 site.json → groups 数组，或编辑器中添加 / 删除列。
-- 行数：每列的 visibleRows，只影响同时显示的重复卡片；一列可有 1 篇、3 篇或更多项目。
+- 行数：每列的 visibleRows 控制基础行数；scene.json 的 fillCategoryBoxes 控制是否继续向后补满。实际项目数量独立，一列可有 1 篇、3 篇或更多项目。
 - 归类：项目 Markdown 的 group 对应列的 id。重排 groups 不改变归类。
 - 分类盒：name、keywords、logo、color 在 site.json；尺寸、抬升高度、左右/后方延展、Logo 比例在 scene.json；同一 logo 图片应用于顶面及盒身前侧面。
 - 发布：publishing.json → autoPublish。完整的手动发布、暂停更新和整站下线步骤见 README。

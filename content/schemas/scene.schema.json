@@ -276,6 +276,26 @@
       "type": "number",
       "minimum": 0.2,
       "maximum": 1
+    },
+    "fillCategoryBoxes": {
+      "default": true,
+      "title": "档案向后补满盒子",
+      "description": "按各列现有项目循环补齐盒内可见空档；仅渲染视野附近的档案。关闭后按每列基础行数显示。",
+      "type": "boolean"
+    },
+    "showEdgeRecesses": {
+      "default": false,
+      "title": "显示两侧地面孔槽",
+      "description": "开启时显示阵列两侧的装饰孔槽；关闭时恢复完整地面。",
+      "type": "boolean"
+    },
+    "detailArrayDrop": {
+      "default": 20,
+      "title": "详情展开时阵列退场距离",
+      "description": "盒子与背景档案一起平滑下移的距离；返回时一起归位。0 表示只跟随镜头移动。",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 40
     }
   },
   "required": [
@@ -314,7 +334,10 @@
     "categoryBoxElevation",
     "categoryBoxSideExtension",
     "categoryBoxRearExtension",
-    "categoryBoxLogoScale"
+    "categoryBoxLogoScale",
+    "fillCategoryBoxes",
+    "showEdgeRecesses",
+    "detailArrayDrop"
   ],
   "additionalProperties": false
 }

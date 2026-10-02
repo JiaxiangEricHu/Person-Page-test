@@ -103,7 +103,8 @@
           "visibleRows": {
             "type": "integer",
             "minimum": 1,
-            "maximum": 48
+            "maximum": 48,
+            "description": "基础显示行数；开启 scene.fillCategoryBoxes 时，会继续向后循环补满盒内可见区域。"
           },
           "enabled": {
             "type": "boolean"

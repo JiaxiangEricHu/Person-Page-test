@@ -3,6 +3,8 @@ import {rowWindow} from '../shared/topology.mjs';
 import * as THREE from 'three';
 import { CARD_BOTTOM, CARD_TOP } from './archive-dimensions.ts';
 import { COLUMN_SPACING, ROW_SPACING, type ArchiveCell } from './archive-loop.ts';
+import {scene as settings} from './config';
+import {categoryBoxLayout} from './category-layout';
 
 const edges = [[0,1],[0,2],[0,4],[1,3],[1,5],[2,3],[2,6],[3,7],[4,5],[4,6],[5,7],[6,7]];
 /** A view-aligned pool, clipped to the height slab the array can occupy. */
@@ -14,9 +16,10 @@ export class ArchiveVisibility {
   candidates = 0;
   private previous: number[] = [];
   private cachedCells: ArchiveCell[] = [];
-  update(source: THREE.PerspectiveCamera, far: number, trackX: number, trackZ: number, extra: boolean, centerRow = 12): ArchiveCell[] {
+  private readonly layouts=archiveGroups.map(group=>categoryBoxLayout(group.visibleRows));
+  update(source: THREE.PerspectiveCamera, far: number, trackX: number, trackZ: number, extra: boolean, centerRow = 12, arrayY = 0): ArchiveCell[] {
     const inputs = [...source.projectionMatrix.elements, ...source.matrixWorldInverse.elements,
-      source.near, source.far, far, trackX, trackZ, Number(extra), centerRow];
+      source.near, source.far, far, trackX, trackZ, Number(extra), centerRow, arrayY];
     if (inputs.every((value, i) => value === this.previous[i])) return this.cachedCells;
     this.previous = inputs;
     this.camera.copy(source, false);
@@ -33,7 +36,7 @@ export class ArchiveVisibility {
     const inverse = this.matrix.clone().invert();
     const vertices = Array.from({length:8},(_,i)=>new THREE.Vector3(i&1?1:-1,i&2?1:-1,i&4?1:-1).applyMatrix4(inverse));
     const slab = new THREE.Box3();
-    const bottom = -6.5 + CARD_BOTTOM, top = 6.5;
+    const bottom = -6.5 + CARD_BOTTOM + arrayY, top = 6.5 + arrayY;
     for (const point of vertices) if(point.y >= bottom && point.y <= top) slab.expandByPoint(point);
     for (const [a,b] of edges) for (const y of [bottom,top]) {
       const start=vertices[a],end=vertices[b],dy=end.y-start.y;
@@ -49,6 +52,13 @@ export class ArchiveVisibility {
     const cells: ArchiveCell[]=[];
     for(let lane=Math.max(0,minLane);lane<=Math.min(archiveGroups.length-1,maxLane);lane++) {
       const window=rowWindow(centerRow,archiveGroups[lane].visibleRows);
+      if(settings.showCategoryBoxes&&settings.fillCategoryBoxes){
+        const layout=this.layouts[lane];
+        // Repeat this column's existing content to the back of the container.
+        // Frustum/fog bounds still cap the pool; off-screen rows are not allocated.
+        window.start=Math.ceil((layout.archiveBack-trackZ)/ROW_SPACING+15.5);
+        window.end=Math.floor((layout.archiveFront-trackZ)/ROW_SPACING+15.5);
+      }
       for(let row=Math.max(minRow,window.start);row<=Math.min(maxRow,window.end);row++) {
       const x=(lane-2)*COLUMN_SPACING-trackX, z=(row-15.5)*ROW_SPACING+trackZ;
       this.box.min.set(x-2.8,bottom,z-1.2);

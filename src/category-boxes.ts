@@ -4,7 +4,8 @@ import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {archiveGroups} from './data';
 import {scene as settings} from './config';
 import {assetUrl} from './asset-url';
-import {ARCHIVE_CENTER_ROW,COLUMN_SPACING,ROW_SPACING} from './archive-loop';
+import {COLUMN_SPACING} from './archive-loop';
+import {categoryBoxLayout} from './category-layout';
 
 const FLOOR=-4.6;
 
@@ -40,15 +41,13 @@ export class CategoryBoxes {
     archiveGroups.forEach((category,index)=>{
       const box=new THREE.Group();box.name=`category-${category.id}`;
       const elevation=settings.categoryBoxElevation;
-      const halfSpan=Math.ceil(category.visibleRows/2)*ROW_SPACING+settings.categoryBoxGap+d/2;
+      const {z,depth,front,back}=categoryBoxLayout(category.visibleRows);
       // A fixed container around the physical row window. Only the cards scroll.
-      box.position.set((index-2)*COLUMN_SPACING,FLOOR+elevation,(ARCHIVE_CENTER_ROW-15.5)*ROW_SPACING+halfSpan);
+      box.position.set((index-2)*COLUMN_SPACING,FLOOR+elevation,z);
       const color=new THREE.Color(category.color);
       const base=new THREE.Mesh(baseGeometry,new THREE.MeshStandardMaterial({color,roughness:.65,metalness:.12}));
       base.name='category-top-rim';base.position.y=h/2;base.receiveShadow=true;box.add(base);
-      const depth=2*Math.ceil(category.visibleRows/2)*ROW_SPACING+settings.categoryBoxGap+d+settings.categoryBoxRearExtension;
-      const front=box.position.z+d/2;
-      this.bounds.push({front,back:front-depth});
+      this.bounds.push({front,back});
       if(!shells.has(depth))shells.set(depth,containerGeometry(w,depth,d/2));
       const shell=new THREE.Mesh(shells.get(depth)!,new THREE.MeshStandardMaterial({color:color.clone().multiplyScalar(.32),roughness:.72,metalness:.1}));
       shell.name='category-container';shell.receiveShadow=true;box.add(shell);
@@ -95,10 +94,12 @@ export class CategoryBoxes {
       if(category.logo){const logo=new Image();logo.onload=()=>draw(logo);logo.src=assetUrl(category.logo);}
     });
   }
-  update(trackX:number,detail:number,visible:boolean){
+  update(trackX:number,backgroundDrop:number,visible:boolean){
     // Horizontal browsing pans the entire array; individual boxes never animate.
     this.root.position.x=-trackX;
-    this.root.visible=visible&&settings.showCategoryBoxes&&detail<.08;
+    // Use the same continuous exit as the background cards, including reversal.
+    this.root.position.y=-backgroundDrop;
+    this.root.visible=visible&&settings.showCategoryBoxes;
   }
   containsArchive(lane:number,z:number){
     if(!this.root.visible)return true;

@@ -35,5 +35,8 @@
   "categoryBoxElevation": 3.2,
   "categoryBoxSideExtension": 0.4,
   "categoryBoxRearExtension": 64,
-  "categoryBoxLogoScale": 0.72
+  "categoryBoxLogoScale": 0.72,
+  "fillCategoryBoxes": true,
+  "showEdgeRecesses": false,
+  "detailArrayDrop": 20
 }

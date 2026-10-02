@@ -4,7 +4,7 @@
 
 ## 分类列字段
 
-`site.groups` 为 1–12 个分类对象。每列可以有不同数量的项目，按各自项目总数循环。`visibleRows` 为同时渲染行数（1–48），与项目总数独立。空列和 enabled: false 的列不生成页面。固定 ID 与 Markdown 的 group 关联，调整名称或顺序不改变关联。
+`site.groups` 为 1–12 个分类对象。每列可以有不同数量的项目，按各自项目总数循环。`visibleRows` 为基础行数（1–48），与项目总数独立。开启 `scene.fillCategoryBoxes` 后，会继续循环补齐后方可见区域；关闭后按基础行数显示。空列和 enabled: false 的列不生成页面。固定 ID 与 Markdown 的 group 关联，调整名称或顺序不改变关联。
 
 | 字段 | 用途 |
 | --- | --- |
@@ -141,6 +141,9 @@
 | `categoryBoxSideExtension` | 盒身左右延展 | `0.4` | 顶板及盒身每侧增加的宽度；总宽自动限制在列间距内，避免相邻盒子相交。；0–1 |
 | `categoryBoxRearExtension` | 盒身向后延展 | `64` | 两侧和底板向后延伸，默认延续到画面外，避免快速滑动时越过可见后沿；加长已有几何，不增加模型面数。；0–160 |
 | `categoryBoxLogoScale` | 盒身 Logo 尺寸 | `0.72` | 前面与两侧的 Logo 显示比例；图片沿用该列的 logo 路径，没有图片时显示分类名称。；0.2–1 |
+| `fillCategoryBoxes` | 档案向后补满盒子 | `true` | 按各列现有项目循环补齐盒内可见空档；仅渲染视野附近的档案。关闭后按每列基础行数显示。 |
+| `showEdgeRecesses` | 显示两侧地面孔槽 | `false` | 开启时显示阵列两侧的装饰孔槽；关闭时恢复完整地面。 |
+| `detailArrayDrop` | 详情展开时阵列退场距离 | `20` | 盒子与背景档案一起平滑下移的距离；返回时一起归位。0 表示只跟随镜头移动。；0–40 |
 
 ## publishing.json
 
