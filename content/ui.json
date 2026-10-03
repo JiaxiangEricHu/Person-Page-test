@@ -25,5 +25,11 @@
   "previousGroup": "上一组",
   "nextGroup": "下一组",
   "openSelected": "展开当前档案",
-  "selectPrefix": "选择"
+  "selectPrefix": "选择",
+  "searchLabel": "搜索项目",
+  "searchPlaceholder": "输入关键词…",
+  "searchClear": "清空",
+  "searchCount": "显示 {count} / {total} 个项目",
+  "searchNoResults": "没有找到匹配的项目",
+  "searchHelp": "试试其他关键词，或清空搜索查看全部项目。"
 }

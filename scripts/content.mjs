@@ -88,8 +88,19 @@ export function projectPage(project,html,site) {
 }
 
 export function projectIndex(projects,site) {
-  const e=escapeHtml, ui=site.ui ?? defaultUi;
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(ui.allProjects)} · ${e(site.title)}</title><link rel="stylesheet" href="../project.css"><link rel="stylesheet" href="../theme.css"><link rel="stylesheet" href="../custom.css"><link rel="icon" href="../favicon.svg"></head><body><header class="project-header"><a href="../">${e(ui.back)}</a><span>${e(site.name)}</span></header><main class="project-article"><h1>${e(ui.allProjects)}</h1><div class="project-list">${projects.length?projects.map(p=>`<a href="./${p.slug}/"><span>${e(groupFor(normalizeGroups(site.groups),p.group)?.name || '')}</span><h2>${e(p.title)}</h2><p>${e(p.abstract)}</p></a>`).join(''):`<p>${e(ui.emptyTitle)}</p>`}</div></main></body></html>`;
+  const e=escapeHtml, ui={...defaultUi,...site.ui}, groups=normalizeGroups(site.groups);
+  const cards=projects.map(p=>{
+    const group=groupFor(groups,p.group);
+    // Only published projects reach this index; search stays local to this page.
+    const search=[p.title,p.en,group?.name,...(group?.keywords || []),p.abstract,p.markdown].filter(Boolean).join('\n');
+    return `<a href="./${p.slug}/" data-search="${e(search)}"><span>${e(group?.name || '')}</span><h2>${e(p.title)}</h2><p>${e(p.abstract)}</p></a>`;
+  }).join('');
+  const search=projects.length?`<form class="project-search" role="search" hidden>
+    <label for="project-search-input">${e(ui.searchLabel)}</label>
+    <div class="project-search-controls"><input id="project-search-input" name="q" type="search" placeholder="${e(ui.searchPlaceholder)}" aria-controls="project-list" autocomplete="off"><button type="reset">${e(ui.searchClear)}</button></div>
+    <p class="project-search-count" role="status" aria-live="polite" aria-atomic="true" data-template="${e(ui.searchCount)}"></p>
+  </form><div class="project-search-empty" hidden><p>${e(ui.searchNoResults)}</p><p>${e(ui.searchHelp)}</p></div>`:'';
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(ui.allProjects)} · ${e(site.title)}</title><link rel="stylesheet" href="../project.css"><link rel="stylesheet" href="../theme.css"><link rel="stylesheet" href="../custom.css"><link rel="icon" href="../favicon.svg"><script src="../project-search.js" defer></script></head><body><header class="project-header"><a href="../">${e(ui.back)}</a><span>${e(site.name)}</span></header><main class="project-article"><h1>${e(ui.allProjects)}</h1>${search}<div class="project-list" id="project-list">${projects.length?cards:`<p>${e(ui.emptyTitle)}</p>`}</div></main></body></html>`;
 }
 
 export async function generateCatalog(directory=root) {

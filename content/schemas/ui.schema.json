@@ -161,6 +161,42 @@
       "title": "档案按钮辅助前缀",
       "description": "档案按钮辅助前缀",
       "type": "string"
+    },
+    "searchLabel": {
+      "default": "搜索项目",
+      "title": "搜索栏标题",
+      "description": "全部项目页的搜索栏标题。",
+      "type": "string"
+    },
+    "searchPlaceholder": {
+      "default": "输入关键词…",
+      "title": "搜索框提示",
+      "description": "搜索标题、分类、分类关键词、简介及正文；多个词用空格分隔。",
+      "type": "string"
+    },
+    "searchClear": {
+      "default": "清空",
+      "title": "清空搜索按钮",
+      "description": "清空关键词并恢复全部项目。",
+      "type": "string"
+    },
+    "searchCount": {
+      "default": "显示 {count} / {total} 个项目",
+      "title": "搜索结果数量",
+      "description": "保留 {count} 和 {total} 占位符，分别表示匹配数和项目总数。",
+      "type": "string"
+    },
+    "searchNoResults": {
+      "default": "没有找到匹配的项目",
+      "title": "搜索无结果标题",
+      "description": "关键词没有匹配项目时显示。",
+      "type": "string"
+    },
+    "searchHelp": {
+      "default": "试试其他关键词，或清空搜索查看全部项目。",
+      "title": "搜索无结果说明",
+      "description": "关键词没有匹配项目时的提示。",
+      "type": "string"
     }
   },
   "required": [
@@ -189,7 +225,13 @@
     "previousGroup",
     "nextGroup",
     "openSelected",
-    "selectPrefix"
+    "selectPrefix",
+    "searchLabel",
+    "searchPlaceholder",
+    "searchClear",
+    "searchCount",
+    "searchNoResults",
+    "searchHelp"
   ],
   "additionalProperties": false
 }

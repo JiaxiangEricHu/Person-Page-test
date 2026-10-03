@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import {readProjects,renderMarkdown,projectPage,generateCatalog} from './content.mjs';
+import {readProjects,renderMarkdown,projectPage,projectIndex,generateCatalog} from './content.mjs';
 
 async function fixture(run) {
   const directory=await fs.mkdtemp(path.join(os.tmpdir(),'eric-archive-'));
@@ -54,6 +54,20 @@ test('missing images and draft links stop publication instead of producing broke
   await write('missing',1,'','[Draft](draft.md)');await write('draft',2,'draft: true');
   const {projects}=await readProjects(directory);
   await assert.rejects(()=>renderMarkdown(projects[0],projects,directory),/不存在或仍是草稿/);
+}));
+
+test('search includes public body text and safely escapes it without indexing drafts',()=>fixture(async(directory,write)=>{
+  await write('visible',1,'subtitle: "Mixed Case Subtitle"','Body-only needle <script>alert("test")</script>');
+  await write('private',1,'draft: true','Private needle');
+  const {projects,site}=await readProjects(directory);
+  const html=projectIndex(projects,site);
+  assert.match(html,/data-search="visible\nMixed Case Subtitle\nA\nBody-only needle &lt;script&gt;/);
+  assert.doesNotMatch(html,/Private needle|<script>alert/);
+  assert.match(html,/src="\.\.\/project-search\.js" defer/);
+  assert.match(html,/aria-controls="project-list"/);
+  const empty=projectIndex([],site);
+  assert.doesNotMatch(empty,/<form/);
+  assert.match(empty,/暂无公开项目/);
 }));
 
 test('stable group IDs follow reordered columns; disabled columns omit all their pages',()=>fixture(async(directory,write)=>{
