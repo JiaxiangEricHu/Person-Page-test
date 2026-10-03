@@ -3,3 +3,10 @@
 /* Shared theme: content/design.json; custom.css is applied last. */
 :root{font-family:var(--font-family,Arial,sans-serif);color:var(--text,#e8e8e4);background:var(--background,#07090b)}
 a,.project-subtitle{color:var(--accent,#c7a66e)}.project-article{max-width:var(--content-width,860px)}.project-article article{font-size:var(--detail-body-size,17px)}.project-summary{border-color:var(--accent,#c7a66e)}.project-list h2{color:var(--text,#e8e8e4)}.project-meta,.project-summary,.project-list p{color:var(--muted,#9aa5ac)}.project-list>a,.project-article pre{background:var(--panel,#101722);border-radius:var(--panel-radius,14px)}
+
+/* Use the same display scale as the archive interface. */
+.project-header,.project-meta,.project-list span,.project-article footer{font-size:calc(14px * var(--ui-scale,1))}
+.project-article h1{font-size:clamp(calc(30px * var(--ui-scale,1)),5vw,calc(48px * var(--ui-scale,1)))}
+.project-subtitle{font-size:calc(16px * var(--ui-scale,1))}.project-summary{font-size:calc(18px * var(--ui-scale,1))}
+.project-article h2{font-size:calc(26px * var(--ui-scale,1))}.project-article h3{font-size:calc(21px * var(--ui-scale,1))}
+.project-list h2{font-size:var(--title-size,24px)}.project-list p{font-size:var(--body-size,16px)}

@@ -35,5 +35,6 @@
   "showNavigation": true,
   "showHints": true,
   "showFooter": true,
-  "showCollection": true
+  "showCollection": true,
+  "uiScale": 1.5
 }

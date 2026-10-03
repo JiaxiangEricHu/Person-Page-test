@@ -11,8 +11,8 @@ test('invalid motion and color settings stop a build; valid edited settings reac
   await fs.mkdir(path.join(folder,'content'));
   for(const name of ['site','ui','design','scene','publishing'])await fs.copyFile(path.join(configRoot,`content/${name}.json`),path.join(folder,`content/${name}.json`));
   const c=await readConfig(folder);
-  c.design.accent='#123456';c.design.contentWidth=1000;c.ui.allProjects='<script>oops</script>';c.ui.emptyTitle='Empty custom';
-  assert.match(themeCss(c),/--accent:#123456/);assert.match(themeCss(c),/--content-width:1000px/);
+  c.design.accent='#123456';c.design.contentWidth=1000;c.design.uiScale=1.5;c.ui.allProjects='<script>oops</script>';c.ui.emptyTitle='Empty custom';
+  assert.match(themeCss(c),/--accent:#123456/);assert.match(themeCss(c),/--content-width:calc\(1000px \* var\(--ui-scale,1\)\)/);assert.match(themeCss(c),/--ui-scale:1\.5/);
   const page=projectPage({title:'Title',slug:'example',group:1,abstract:'Summary'},'<p>Body</p>',{...c.site,ui:c.ui});
   assert.match(page,/&lt;script&gt;oops&lt;\/script&gt;/);assert.match(page,/\.\.\/\.\.\/theme.css/);assert.doesNotMatch(page,/<script>oops/);
   assert.match(projectIndex([],{...c.site,ui:c.ui}),/Empty custom/);

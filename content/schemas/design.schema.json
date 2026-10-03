@@ -264,6 +264,14 @@
       "title": "显示总数",
       "description": "显示总数",
       "type": "boolean"
+    },
+    "uiScale": {
+      "default": 1.5,
+      "title": "界面显示比例",
+      "description": "1 为 100%，1.5 为 150%。统一放大文字、按钮和面板尺寸；小屏幕重新排布并允许纵向滚动。",
+      "type": "number",
+      "minimum": 1,
+      "maximum": 2
     }
   },
   "required": [
@@ -302,7 +310,8 @@
     "showNavigation",
     "showHints",
     "showFooter",
-    "showCollection"
+    "showCollection",
+    "uiScale"
   ],
   "additionalProperties": false
 }

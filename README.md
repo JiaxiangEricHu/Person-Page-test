@@ -230,3 +230,7 @@ npm run preview
 三维档案交互基于 [RhineLabUI / LBEILC](https://github.com/LBEILC/RhineLabUI)，保留根目录 LICENSE 与 public/licenses 中的授权、署名文件。
 
 官方部署资料：[GitHub Pages 工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)、[Vite 静态部署](https://vite.dev/guide/static-deploy.html#github-pages)。
+
+### 默认显示大小
+
+界面默认使用 **150%**，简介、档案标题、导航和操作按钮一起放大。编辑器「颜色与布局 → 界面显示比例」或 `content/design.json` 的 `uiScale` 可调整：`1` 为 100%，`1.5` 为 150%，`2` 为 200%。原字号和间距字段按此比例统一计算；窄屏会重新排布，内容较多时可滚动阅读。

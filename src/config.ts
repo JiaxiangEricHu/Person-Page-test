@@ -9,6 +9,6 @@ export function applyDesign(){
  for(const [key,value] of Object.entries(design)) {
   if(key==='$schema')continue;
   if(key.startsWith('show')){document.body.dataset[key]=String(value);continue;}
-  document.documentElement.style.setProperty('--'+(key==='line'?'borderColor':key).replace(/[A-Z]/g,m=>'-'+m.toLowerCase()),String(value)+(typeof value==='number'&&!['panelOpacity','previewImageFraction'].includes(key)?'px':''));
+  document.documentElement.style.setProperty('--'+(key==='line'?'borderColor':key).replace(/[A-Z]/g,m=>'-'+m.toLowerCase()),typeof value==='number'&&!['panelOpacity','previewImageFraction','uiScale'].includes(key)?`calc(${value}px * var(--ui-scale,1))`:String(value));
  }
 }

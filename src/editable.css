@@ -24,3 +24,52 @@ body[data-show-intro=false] .intro-panel,body[data-show-topics=false] .intro-top
 .row-nav #row-ticks{flex-direction:row}
 
 .category-caption{color:var(--accent);font-size:12px;letter-spacing:.08em;margin:8px 0 12px}#columns{max-width:min(55vw,600px);overflow-x:auto;scrollbar-width:thin;flex-wrap:nowrap}#columns button{flex:none}
+
+/* A single readable scale for text and controls, independent of the WebGL canvas. */
+.brand strong>span{font-size:calc(26px * var(--ui-scale,1))}
+.brand>span,.header-right,.eyebrow,.intro-topics,.preview-subtitle,.category-caption,footer{font-size:calc(12px * var(--ui-scale,1))}
+.intro-panel h2{font-size:calc(28px * var(--ui-scale,1))}
+.info-stack{width:min(var(--panel-width),38vw);top:clamp(140px,15vh,190px);bottom:110px;max-height:none;gap:calc(14px * var(--ui-scale,1))}
+.intro-panel{flex:0 1 auto;min-height:120px;overflow-y:auto;scrollbar-width:thin}
+.preview-panel{flex:none}
+.preview-summary{aspect-ratio:auto;height:auto;min-height:calc(100px * var(--ui-scale,1));margin-top:calc(16px * var(--ui-scale,1))}
+.preview-copy{padding-left:calc(16px * var(--ui-scale,1))}
+.preview-summary .preview-image{contain:size}
+#row-ticks button{flex-basis:calc(28px * var(--ui-scale,1));min-width:calc(28px * var(--ui-scale,1))}
+.open-file,.read-project,.details #back,.contact-link{font-size:calc(16px * var(--ui-scale,1))}
+.open-file{min-height:calc(48px * var(--ui-scale,1));padding:calc(11px * var(--ui-scale,1)) calc(14px * var(--ui-scale,1))}
+.open-file span{font-size:calc(21px * var(--ui-scale,1))}
+.bottom-bar{right:calc(min(var(--panel-width),38vw) + 6.8%)}
+.selection-counter>span{font-size:calc(36px * var(--ui-scale,1))}
+.selection-counter>i,.selection-counter small,.hint{font-size:calc(14px * var(--ui-scale,1))}
+.hint span{font-size:calc(12px * var(--ui-scale,1))}
+.details{top:18%;max-height:calc(82% - 85px);width:min(calc(420px * var(--ui-scale,1)),43vw)}
+.details h2{font-size:calc(32px * var(--ui-scale,1))}
+.detail-image{height:calc(150px * var(--ui-scale,1))}
+@media(max-width:1250px){.bottom-bar{right:3.4%}.hint{display:none}.brand>span{font-size:calc(10px * var(--ui-scale,1))}}
+@media(max-height:800px) and (min-width:701px){
+ .info-stack{top:125px;bottom:100px}.intro-panel{min-height:100px}.intro-panel h2{margin:8px 0}.intro-topics{display:none}
+ .preview-summary{min-height:calc(72px * var(--ui-scale,1));margin-top:12px}.preview-panel{padding:calc(15px * var(--ui-scale,1))}
+ .details{top:110px;max-height:calc(100% - 190px)}
+}
+@media(max-width:700px){
+ #app{min-height:calc(800px * var(--ui-scale,1))}
+ header{padding:18px}.brand strong{font-size:calc(26px * var(--ui-scale,1))}.brand strong>span{font-size:calc(22px * var(--ui-scale,1))}
+ .info-stack{display:contents}.intro-panel{top:80px;max-height:250px;min-height:0;padding:calc(10px * var(--ui-scale,1)) calc(14px * var(--ui-scale,1))}
+ .intro-panel h2{font-size:calc(18px * var(--ui-scale,1))}.intro-panel .eyebrow{font-size:calc(10px * var(--ui-scale,1))}
+ .preview-panel{padding:calc(14px * var(--ui-scale,1));bottom:145px}
+ .preview-summary{height:auto;min-height:var(--mobile-preview-height);margin-top:12px}.preview-copy{padding-left:12px}
+ .preview-copy h1{font-size:calc(22px * var(--ui-scale,1))}
+ .bottom-bar{right:18px;bottom:76px}.column-nav{max-width:100%}#columns{max-width:calc(100vw - 150px)}
+ footer{font-size:calc(10px * var(--ui-scale,1))}
+ .details{left:18px;right:18px;top:48%;bottom:85px;width:auto;max-height:none;padding:calc(16px * var(--ui-scale,1))}
+ .details h2{font-size:calc(25px * var(--ui-scale,1))}.detail-image{height:calc(95px * var(--ui-scale,1))}
+}
+/* Keep the introduction readable when enlarged controls share a short screen. */
+@media(min-width:701px) and (max-height:950px){
+ .intro-panel{padding:16px 20px}.intro-panel>.eyebrow{float:right;font-size:calc(10px * var(--ui-scale,1));margin-top:7px}
+ .intro-panel h2{margin:0 0 8px}.intro-panel p{line-height:1.5}.intro-topics{display:none}
+ .preview-panel{padding:16px 20px}.preview-panel .category-caption{margin:4px 0 6px}
+ .preview-summary{min-height:calc(60px * var(--ui-scale,1));margin-top:8px}
+ .preview-panel .row-nav{margin-top:8px;padding-top:8px}.preview-panel .open-file{margin-top:12px}
+}

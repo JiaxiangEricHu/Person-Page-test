@@ -25,7 +25,7 @@ export async function readConfig(directory=configRoot) {
 }
 export function themeCss(config) {
  const d=config.design;
- return ':root{'+Object.entries(d).filter(([k])=>k!=='$schema'&&!k.startsWith('show')).map(([k,v])=>`--${(k==='line'?'borderColor':k).replace(/[A-Z]/g,m=>'-'+m.toLowerCase())}:${v}${typeof v==='number'&&!['panelOpacity','previewImageFraction'].includes(k)?'px':''}`).join(';')+'}';
+ return ':root{'+Object.entries(d).filter(([k])=>k!=='$schema'&&!k.startsWith('show')).map(([k,v])=>`--${(k==='line'?'borderColor':k).replace(/[A-Z]/g,m=>'-'+m.toLowerCase())}:${typeof v==='number'&&!['panelOpacity','previewImageFraction','uiScale'].includes(k)?`calc(${v}px * var(--ui-scale,1))`:v}`).join(';')+'}';
 }
 export async function prepareConfig() {
  const c=await readConfig();

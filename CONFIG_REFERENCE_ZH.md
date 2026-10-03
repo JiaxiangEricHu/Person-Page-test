@@ -78,6 +78,7 @@
 | `cardSubtitle` | 标签副标题 | `"#3b4137"` | 标签副标题 |
 | `placeholder` | 占位缩略图 | `"#6a7958"` | 占位缩略图 |
 | `fontFamily` | 界面字体 | `"Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif"` | 填写 CSS 字体族列表；字体须已在浏览器安装或另行引入。 |
+| `uiScale` | 界面显示比例 | `1.5` | 1 = 100%，1.5 = 150%；统一放大文字、按钮与面板；1–2 |
 | `bodySize` | 正文大小 px | `16` | 正文大小 px；14–24 |
 | `titleSize` | 预览标题 px | `24` | 预览标题 px；18–36 |
 | `brandSize` | 桌面品牌字号 px | `38` | 桌面品牌字号 px；20–52 |
